@@ -10,6 +10,8 @@
 #define MAX_MAP_WIDTH 300
 #define MAX_MAP_HEIGHT 600
 
+#define MAX_REGION 40000
+
 class CPatchContext;
 
 class CMap : public QObject {
@@ -31,13 +33,6 @@ public:
 
 	int randomisedFloor(int x, int y) const;
 	static int randomisedFloor(int x, int y, int shapeNum);
-
-	int wallShapeFor(int x, int y) const;
-
-	int regionShapeFor(int x, int y) const {
-		int reg = regions[x][y];
-		return (reg == 0) ? -1 : ((regions[x][y] - 1) % 200);
-	}
 
 	bool positionValid(CMapPoint &pos) const {
 		return (pos.x < (m_width * 2) && pos.y < m_height);

@@ -31,11 +31,11 @@ CObjectPicker::CObjectPicker(QWidget *parent) : QWidget(parent) {
 
 
 void CObjectPicker::setup(CPatchContext *context) {
-	m_pickers[0]->setup(&context->items);
-	m_pickers[1]->setup(&context->floors);
-	m_pickers[2]->setup(&context->walls);
-	m_pickers[3]->setup(&context->regions);
-	m_pickers[4]->setup(&context->effects);
+	m_pickers[0]->setup(&context->itemIndexer);
+	m_pickers[1]->setup(&context->floorIndexer);
+	m_pickers[2]->setup(&context->wallIndexer);
+	m_pickers[3]->setup(&context->regionIndexer);
+	m_pickers[4]->setup(&context->effectIndexer);
 }
 
 

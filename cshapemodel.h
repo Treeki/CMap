@@ -3,22 +3,21 @@
 
 #include <QAbstractListModel>
 #include "cshapepool.h"
+#include "cshapeindexer.h"
 
 class CShapeModel : public QAbstractListModel {
 	Q_OBJECT
 public:
-	explicit CShapeModel(CShapePool *pool = 0, QObject *parent = 0);
+	explicit CShapeModel(CShapePool *pool = 0, CShapeIndexer *indexer = 0, QObject *parent = 0);
 
 	int rowCount(const QModelIndex &parent) const;
 	QVariant data(const QModelIndex &index, int role) const;
 
-	void setPool(CShapePool *pool);
+	void setPoolAndIndexer(CShapePool *pool, CShapeIndexer *indexer);
 
-	int indexToNumber(int index) const { return m_validIndices.at(index); }
-	
 protected:
 	CShapePool *m_pool;
-	QVector<int> m_validIndices;
+	CShapeIndexer *m_indexer;
 
 signals:
 	

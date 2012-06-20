@@ -4,6 +4,7 @@
 #include <QtCore/QVector>
 #include <QtCore/QDir>
 #include "cshapepool.h"
+#include "cshapeindexer.h"
 
 class CPatchContext : public QObject {
 	Q_OBJECT
@@ -13,6 +14,10 @@ public:
 
 	QVector<QRgb> palette;
 	CShapePool items, floors, walls, effects, regions;
+
+	CShapeIndexer itemIndexer, floorIndexer, effectIndexer;
+	CWallShapeIndexer wallIndexer;
+	CRegionShapeIndexer regionIndexer;
 
 	// Todo: This thing should handle animations?
 

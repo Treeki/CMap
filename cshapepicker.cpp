@@ -5,7 +5,7 @@
 
 CShapePicker::CShapePicker(CMap::ObjectType objectType, QWidget *parent) :
 	QWidget(parent), m_objectType(objectType),
-	m_model(0) {
+	m_model(0), m_indexer(0) {
 
 	QGridLayout *layout = new QGridLayout;
 
@@ -17,7 +17,7 @@ CShapePicker::CShapePicker(CMap::ObjectType objectType, QWidget *parent) :
 }
 
 
-void CShapePicker::setup(CShapePool *pool) {
+void CShapePicker::setup(CShapeIndexer *indexer) {
 	// clean up the old selection model if there's one,
 	// apparently we have to do this!
 	if (m_view->selectionModel())
@@ -26,7 +26,9 @@ void CShapePicker::setup(CShapePool *pool) {
 	if (m_model)
 		m_model->deleteLater();
 
-	m_model = new CShapeModel(pool, this);
+	m_indexer = indexer;
+
+	m_model = new CShapeModel(indexer->pool(), indexer, this);
 
 	m_view->setModel(m_model);
 	m_view->setViewMode(QListView::IconMode);
@@ -43,9 +45,9 @@ void CShapePicker::setup(CShapePool *pool) {
 void CShapePicker::handleRowChanged(const QModelIndex &current, const QModelIndex &previous) {
 	(void)previous;
 
-	emit selectedItemChanged(m_model->indexToNumber(current.row()));
+	emit selectedItemChanged(m_indexer->shapeNumForPickableIndex(current.row()));
 }
 
 int CShapePicker::selectedItem() const {
-	return m_model->indexToNumber(m_view->currentIndex().row());
+	return m_indexer->shapeNumForPickableIndex(m_view->currentIndex().row());
 }

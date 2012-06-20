@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     cshapemodel.cpp \
     cobjectpicker.cpp \
     cundostack.cpp \
-    utility.cpp
+    utility.cpp \
+    cshapeindexer.cpp
 
 HEADERS  += \
     cpatchfile.h \
@@ -49,7 +50,8 @@ HEADERS  += \
     cshapemodel.h \
     cobjectpicker.h \
     cundostack.h \
-    utility.h
+    utility.h \
+    cshapeindexer.h
 
 FORMS    +=
 

@@ -1,41 +1,44 @@
 #include "cshapemodel.h"
 
-CShapeModel::CShapeModel(CShapePool *pool, QObject *parent) :
-	QAbstractListModel(parent), m_pool(0) {
+CShapeModel::CShapeModel(CShapePool *pool, CShapeIndexer *indexer, QObject *parent) :
+	QAbstractListModel(parent), m_pool(0), m_indexer(0) {
 
-	if (pool)
-		setPool(pool);
+	if (pool && indexer)
+		setPoolAndIndexer(pool, indexer);
 }
 
 
-void CShapeModel::setPool(CShapePool *pool) {
+void CShapeModel::setPoolAndIndexer(CShapePool *pool, CShapeIndexer *indexer) {
 	m_pool = pool;
-
-	m_validIndices.clear();
-
-	for (int i = 0; i < pool->max(); i++) {
-		if (pool->exists(i))
-			m_validIndices.append(i);
-	}
+	m_indexer = indexer;
 }
 
 
 int CShapeModel::rowCount(const QModelIndex &parent) const {
 	(void)parent;
-	return m_validIndices.count();
+	return m_indexer->pickableIndexCount();
 }
 
 
 QVariant CShapeModel::data(const QModelIndex &index, int role) const {
-	int num = m_validIndices.at(index.row());
+	int num = m_indexer->shapeNumForPickableIndex(index.row());
 
 	switch (role) {
 	case Qt::DisplayRole:
 	case Qt::ToolTipRole:
-		return QString("Shape %1").arg(num);
-	case Qt::DecorationRole:
-		if (num == 0) return QVariant();
-		return m_pool->shape(num).frames.first().pixmap;
+		return QString::number(num);
+
+	case Qt::DecorationRole: {
+		if (num == 0 && m_indexer->blankShapeZero())
+			return QVariant();
+
+		int imageNum = m_indexer->imageNumForShape(num);
+		if (imageNum == -1 || !m_pool->exists(imageNum))
+			return QVariant();
+
+		return m_pool->shape(imageNum).frames.first().pixmap;
+	}
+
 	case Qt::SizeHintRole:
 		return QSize(64, 64);
 	}

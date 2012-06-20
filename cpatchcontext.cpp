@@ -1,6 +1,12 @@
 #include "cpatchcontext.h"
 
-CPatchContext::CPatchContext(QObject *parent) : QObject(parent) {
+CPatchContext::CPatchContext(QObject *parent) :
+	QObject(parent),
+	itemIndexer(CMap::Item, &items),
+	floorIndexer(CMap::Floor, &floors),
+	effectIndexer(CMap::Effect, &effects),
+	wallIndexer(&walls),
+	regionIndexer(&regions) {
 }
 
 
@@ -25,7 +31,7 @@ void CPatchContext::loadPatches(QString defaultPath, QString customPath) {
 
 	items.setup(3400);
 	floors.setup(1000);
-	walls.setup(17*18);
+	walls.setup(20*18);
 	regions.setup(200);
 	effects.setup(1000);
 
@@ -36,6 +42,12 @@ void CPatchContext::loadPatches(QString defaultPath, QString customPath) {
 		QDir customDir(customPath);
 		loadPatchDir(customDir, true);
 	}
+
+	itemIndexer.setup();
+	floorIndexer.setup();
+	wallIndexer.setup();
+	//regionIndexer.setup();
+	effectIndexer.setup();
 }
 
 
@@ -81,11 +93,13 @@ void CPatchContext::loadPatchDir(QDir dir, bool isCustom) {
 		walls.applyPatch(pWall, 16, 20, 16);
 	}
 
-	for (int i = 0; i < 17; i++) {
+	for (int i = 0; i < 20; i++) {
 		CPatchFile pOneWall;
 		if (pOneWall.loadFromDir(dir, QString("wall_%1").arg(i + 1), palette)) {
 			walls.applyPatch(pOneWall, 0, (i*18)+2, 16);
 			walls.applyPatch(pOneWall, 16, i*18, 2);
+			// TODO: simulate the behaviour where textures 18, 19 and 20 do not
+			// have the correct walkability properties
 		}
 	}
 

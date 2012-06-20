@@ -42,12 +42,21 @@ Once a patch file is loaded, it's not used directly by the editor; the shapes
 from every patch file used in a specific space (eg. all items or all floors)
 are loaded into `CShapePool`.
 
-`CShapeModel` is a Qt model used by `CShapePicker`, which maps to one
-`CShapePool`. (However, it doesn't map 1:1 with the shape numbers there:
-walls and regions both require special handling. What a pain.)
+`CShapeIndexer` deals with the inconsistent mapping between the shape numbers
+you can see in maps/DS/etc and the actual ShapePool shape that's pulled up.
+It also holds a list of choosable shapes, which is used by `CShapeModel`. 
 
-`CPatchContext` stores a palette, and shape pools for the five shape types
-used by maps.
+The base indexer class is used by items, floors and effects (but only by the
+shape pickers). The subclasses `CWallShapeIndexer` and `CRegionShapeIndexer`
+are used by walls and regions respectively and also handle the image number
+mappings for CMapWidget, in addition to the shape picker stuff.
+
+`CShapeModel` is a Qt model used by `CShapePicker`, which maps to one
+`CShapeIndexer` and `CShapePool`. It just takes the list of pickable shapes
+provided by `CShapeIndexer` and makes it usable in Qt's model/view stuff.
+
+`CPatchContext` stores a palette, shape pools and indexers for the five shape
+types used by maps.
 
 
 Map

@@ -362,25 +362,6 @@ int CMap::randomisedItem(int x, int y) const {
 }
 
 
-int CMap::wallShapeFor(int x, int y) const {
-	int wall = walls[x][y];
-	if (wall == 0) {
-		return -1;
-	} else {
-		int sideBias = ((x & 1) ? 0 : 1);
-		int texture = wall / 12;
-		int shape = wall % 12;
-
-		if (shape == 0 || shape == 2)
-			return -1;
-		else if (shape == 1 || shape == 3)
-			return (texture * 18) + sideBias;
-		else
-			return (texture * 18) + ((shape - 3) * 2) + sideBias;
-	}
-}
-
-
 const char *CMap::nameForObjectType(ObjectType type) {
 	switch (type) {
 	case Item: return "item";

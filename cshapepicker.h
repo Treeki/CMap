@@ -12,10 +12,11 @@ class CShapePicker : public QWidget {
 public:
 	explicit CShapePicker(CMap::ObjectType objectType, QWidget *parent = 0);
 
-	void setup(CShapePool *pool);
+	void setup(CShapeIndexer *indexer);
 
 protected:
 	CShapeModel *m_model;
+	CShapeIndexer *m_indexer;
 
 	QListView *m_view;
 
