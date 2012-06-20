@@ -39,5 +39,6 @@ struct CMapPoint {
 };
 
 uint qHash(const CMapPoint &point);
+QDebug operator<<(QDebug dbg, const CMapPoint &point);
 
 #endif // CMAPPOINT_H
