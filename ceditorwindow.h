@@ -35,6 +35,8 @@ public slots:
 	void zoomOut();
 	void zoomActual();
 
+	void showAboutBox();
+
 private:
 	void setupActions();
 	void setupMenubar();

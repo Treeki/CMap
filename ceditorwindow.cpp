@@ -110,6 +110,9 @@ void CEditorWindow::setupMenubar() {
 	m->addAction(m_zoomInAction);
 	m->addAction(m_zoomOutAction);
 	m->addAction(m_zoomActualAction);
+
+	m = menuBar()->addMenu("&Help");
+	m->addAction("&About CMap", this, SLOT(showAboutBox()));
 }
 
 void CEditorWindow::setupToolbar() {
@@ -345,6 +348,18 @@ void CEditorWindow::updateZoomActions() {
 	m_zoomOutAction->setEnabled(m_zoomLevelIndex > 0);
 	m_zoomActualAction->setEnabled(m_zoomLevelIndex != ZoomLevelDefaultIndex);
 }
+
+
+void CEditorWindow::showAboutBox() {
+	QMessageBox::about(this,
+					   "About CMap",
+
+					   "An alternative Furcadia map editor developed by Treeki.\n"
+					   "\n"
+					   "Source code and more information available here:\n"
+					   "http://github.com/Treeki/CMap");
+}
+
 
 CEditorWindow::~CEditorWindow() {
 }
