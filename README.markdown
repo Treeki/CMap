@@ -56,12 +56,14 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 ## Object Picker:
 
-- proper handling of walls and regions
 - nicer rendering
 - saving of scroll position when resizing
 - FBJ flag display
 - a way to jump to a specific shape number
 - a way to open up a temporary larger picker, similar to DreamEd's
+- a shortcut for selecting "no object" (or wall, region, etc) without
+  scrolling to the top of the list
+- perhaps filtering? not sure how this'd work yet
 
 ## Patch Support:
 
@@ -79,7 +81,6 @@ it up and make it work with whatever gets added to Furcadia later on.
 ## Brush Tool:
 
 - Picking of items below the cursor (Could be added to CCommandToolBase?)
-- Proper previewing of walls and regions while placing
 - Larger brushes
 
 ## Other Editing Features:
