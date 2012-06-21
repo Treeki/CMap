@@ -18,6 +18,8 @@ private:
 	CMapPoint m_hovered;
 	int m_hoveredHalfX;
 
+	int m_wallPaintDirection;
+
 public:
 	void tileMousePress(const CMapPoint &tile, QMouseEvent *event);
 

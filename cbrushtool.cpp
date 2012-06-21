@@ -59,20 +59,33 @@ void CBrushTool::setWhat(CMap::ObjectType type, int value) {
 
 
 void CBrushTool::hoverStatusChanged(bool fromValid, const CMapPoint &from, bool toValid, const CMapPoint &to, QMouseEvent *event) {
+	// this is a bit weird: we can't actually use "from" because we might have
+	// manipulated that position in a previous call!
+	CMapPoint realFrom = m_hovered;
+	CMapPoint realTo = to;
+
+	if (m_whatType & CMap::Wall) {
+		// if we're currently painting a wall, then force the hovered position
+		// to face the same direction as the painted walls
+		if (commandActive())
+			realTo.x = (realTo.x &= ~1) | m_wallPaintDirection;
+	} else {
+		// otherwise, make sure we're always at an even position
+		realTo.x &= ~1;
+	}
+
 	if (fromValid)
-		widget()->updateTile(from, (CEditableMap::UpdateType)m_whatType);
+		widget()->updateTile(realFrom, (CEditableMap::UpdateType)m_whatType);
 	if (toValid)
-		widget()->updateTile(to, (CEditableMap::UpdateType)m_whatType);
+		widget()->updateTile(realTo, (CEditableMap::UpdateType)m_whatType);
 
-	m_hovered = to;
-	if (!(m_whatType & CMap::Wall))
-		m_hovered.x &= ~1;
-	m_hoveredHalfX = m_hovered.x / 2;
+	m_hovered = realTo;
+	m_hoveredHalfX = realTo.x / 2;
 
 	if (fromValid)
-		widget()->updateTile(from, (CEditableMap::UpdateType)m_whatType);
+		widget()->updateTile(realFrom, (CEditableMap::UpdateType)m_whatType);
 	if (toValid) {
-		widget()->updateTile(to, (CEditableMap::UpdateType)m_whatType);
+		widget()->updateTile(realTo, (CEditableMap::UpdateType)m_whatType);
 
 		if (commandActive()) {
 			// TODO: refactor this so the same code is used here and in
@@ -93,6 +106,8 @@ void CBrushTool::tileMousePress(const CMapPoint &tile, QMouseEvent *event) {
 
 	if (commandActive()) {
 		int canonicalX = (m_whatType & CMap::Wall) ? tile.x : (tile.x & ~1);
+
+		m_wallPaintDirection = tile.x & 1;
 
 		// figure out what's there now
 		// if it already has the type being painted, then don't touch it!
