@@ -9,7 +9,7 @@ CMapWidget::CMapWidget(QWidget *parent) :
 	m_currentTool(0),
 	isHovering(false), m_isDraggingMap(false) {
 
-	setAttribute(Qt::WA_OpaquePaintEvent);
+	//setAttribute(Qt::WA_OpaquePaintEvent);
 	setMouseTracking(true);
 
 	mouseMapImage.load(":/graphics/mousemap.png");
@@ -19,10 +19,10 @@ CMapWidget::CMapWidget(QWidget *parent) :
 
 
 static inline int screenXForPos(int x, int y) {
-	return (x * 64) + ((y & 1) ? 0 : 32);
+	return ((x * 64) + ((y & 1) ? 0 : 32)) - 2;
 }
 static inline int screenYForPos(int y) {
-	return y * 16;
+	return (y * 16) - 63;
 }
 
 
@@ -65,7 +65,7 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 			   int(rawRect.height() / m_zoomFactorY)
 				);
 
-	painter.fillRect(rect, Qt::white);
+	//painter.fillRect(rect, Qt::white);
 
 	// for bounds checking, scale the rect
 	int minX = qMax(0, (rect.x() / 64) - 8);
@@ -101,7 +101,7 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 
 	if (isHovering) {
 		painter.drawPixmap(
-					screenXForPos(hovered.x / 2, hovered.y) + 2,
+					screenXForPos(hovered.x / 2, hovered.y) + 1,
 					screenYForPos(hovered.y) + 63,
 					highlightPixmap);
 	}
@@ -144,7 +144,7 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 
 	if (isHovering) {
 		painter.drawPixmap(
-					screenXForPos(hovered.x / 2, hovered.y) + 2,
+					screenXForPos(hovered.x / 2, hovered.y) + 1,
 					screenYForPos(hovered.y) + 63,
 					highlightTransPixmap);
 	}
@@ -157,7 +157,7 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 			for (int x = minX; x < maxX; x++) {
 				if (m_map->m_selectionMask.testBit(base + x)) {
 					painter.drawPixmap(
-								screenXForPos(x, y) + 2,
+								screenXForPos(x, y) + 1,
 								screenYForPos(y) + 63,
 								highlightTransPixmap);
 				}
@@ -178,7 +178,7 @@ void CMapWidget::updateTile(int x, int y, CEditableMap::UpdateType type) {
 	CMap::ObjectType toPreview = m_currentTool->typesToPreview();
 
 	if (type & CEditableMap::HighlightUpdate) {
-		updateWorld(screenX + 2, screenY + 63, 64, 32);
+		updateWorld(screenX + 2, screenY + 63, 62, 32);
 	}
 
 	if (type & CEditableMap::FloorUpdate) {
@@ -307,7 +307,7 @@ void CMapWidget::fixWidgetSize() {
 	if (m_map == 0)
 		return;
 
-	resize(m_map->width()*64*m_zoomFactorX, m_map->height()*16*m_zoomFactorY);
+	resize(((m_map->width()*64)+32)*m_zoomFactorX, ((m_map->height()*16)+16)*m_zoomFactorY);
 }
 
 
@@ -335,8 +335,8 @@ void CMapWidget::setPatches(CPatchContext *newPatches) {
 
 
 CMapPoint CMapWidget::calculateClickedPosition(const QPoint &rawScreenPos) {
-	int screenX = (rawScreenPos.x() / m_zoomFactorX) - 2;
-	int screenY = (rawScreenPos.y() / m_zoomFactorY) - 63;
+	int screenX = (rawScreenPos.x() / m_zoomFactorX) + 1;
+	int screenY = (rawScreenPos.y() / m_zoomFactorY);
 
 	CMapPoint pos;
 
@@ -345,7 +345,7 @@ CMapPoint CMapWidget::calculateClickedPosition(const QPoint &rawScreenPos) {
 		pos.y = -1;
 	} else {
 		pos.x = ((screenX / 64) * 2) - 2;
-		pos.y = (screenY / 32) * 2;
+		pos.y = ((screenY / 32) * 2);
 
 		QRgb check = mouseMapImage.pixel(screenX % 64, screenY % 32);
 
