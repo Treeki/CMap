@@ -68,7 +68,7 @@ void CBrushTool::hoverStatusChanged(bool fromValid, const CMapPoint &from, bool 
 		// if we're currently painting a wall, then force the hovered position
 		// to face the same direction as the painted walls
 		if (commandActive())
-			realTo.x = (realTo.x &= ~1) | m_wallPaintDirection;
+			realTo.x = (realTo.x & ~1) | m_wallPaintDirection;
 	} else {
 		// otherwise, make sure we're always at an even position
 		realTo.x &= ~1;
