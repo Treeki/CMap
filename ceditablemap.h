@@ -35,13 +35,12 @@ public:
 
 	CUndoStack undo;
 
+	bool hasSelection;
+	QBitArray selectionMask;
+
 signals:
 	void updateTile(const CMapPoint &point, CEditableMap::UpdateType type);
 
-protected:
-	bool m_hasSelection;
-	QBitArray m_selectionMask;
-	
 public slots:
 	
 };

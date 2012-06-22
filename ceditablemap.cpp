@@ -3,7 +3,7 @@
 
 CEditableMap::CEditableMap(QObject *parent, int width, int height) :
 	CMap(parent, width, height),
-	m_hasSelection(false) {
+	hasSelection(false) {
 	undo.baseStack()->setUndoLimit(64);
 }
 
@@ -11,9 +11,9 @@ CEditableMap::CEditableMap(QObject *parent, int width, int height) :
 void CEditableMap::resize(int newWidth, int newHeight) {
 	CMap::resize(newWidth, newHeight);
 
-	m_hasSelection = false;
-	m_selectionMask.resize(width() * height());
-	m_selectionMask.clear();
+	hasSelection = false;
+	selectionMask.resize(width() * height());
+	selectionMask.clear();
 }
 
 

@@ -150,12 +150,12 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 	}
 
 	// Now, selections
-	if (m_map->m_hasSelection) {
+	if (m_map->hasSelection) {
 		for (int y = minY; y < maxY; y++) {
 			int base = y * m_map->width();
 
 			for (int x = minX; x < maxX; x++) {
-				if (m_map->m_selectionMask.testBit(base + x)) {
+				if (m_map->selectionMask.testBit(base + x)) {
 					painter.drawPixmap(
 								screenXForPos(x, y) + 1,
 								screenYForPos(y) + 63,
