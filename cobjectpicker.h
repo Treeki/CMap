@@ -25,6 +25,7 @@ signals:
 	void selectionChanged(CMap::ObjectType objectType, int value);
 	
 public slots:
+	void setSelectedShape(int newShape);
 	
 };
 

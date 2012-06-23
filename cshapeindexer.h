@@ -18,6 +18,7 @@ public:
 
 	virtual int shapeNumForPickableIndex(int index) const;
 	virtual int pickableIndexCount() const;
+	virtual int pickableIndexForShapeNum(int index) const;
 
 	virtual bool blankShapeZero() const;
 
@@ -26,6 +27,10 @@ protected:
 	CMap::ObjectType m_objectType;
 
 	QVector<int> m_pickableIndices;
+	QHash<int, int> m_pickableIndexReverseLookup;
+
+	void resetPickableIndices();
+	void addPickableIndex(int shapeNum);
 };
 
 class CRegionShapeIndexer : public CShapeIndexer {
@@ -37,6 +42,7 @@ public:
 
 	int shapeNumForPickableIndex(int index) const;
 	int pickableIndexCount() const;
+	int pickableIndexForShapeNum(int index) const;
 };
 
 class CWallShapeIndexer : public CShapeIndexer {

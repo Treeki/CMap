@@ -25,6 +25,8 @@ protected:
 public:
 	CMap::ObjectType objectType() const { return m_objectType; }
 
+	void setSelectedShape(int newShape);
+
 	int selectedItem() const;
 signals:
 	void selectedItemChanged(int item);

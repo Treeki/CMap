@@ -46,3 +46,8 @@ void CObjectPicker::handleCurrentTabChanged(int index) {
 void CObjectPicker::handleSelectedItemChanged(int item) {
 	emit selectionChanged(m_pickers[m_tabs->currentIndex()]->objectType(), item);
 }
+
+
+void CObjectPicker::setSelectedShape(int newShape) {
+	m_pickers[m_tabs->currentIndex()]->setSelectedShape(newShape);
+}

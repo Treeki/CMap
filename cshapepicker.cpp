@@ -35,8 +35,7 @@ void CShapePicker::setup(CShapeIndexer *indexer) {
 	m_view->setResizeMode(QListView::Adjust);
 	m_view->setUniformItemSizes(true);
 
-	m_view->selectionModel()->clearSelection();
-	m_view->selectionModel()->setCurrentIndex(m_model->index(0), QItemSelectionModel::SelectCurrent);
+	setSelectedShape(0);
 
 	connect(m_view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(handleRowChanged(QModelIndex,QModelIndex)));
 }
@@ -50,4 +49,13 @@ void CShapePicker::handleRowChanged(const QModelIndex &current, const QModelInde
 
 int CShapePicker::selectedItem() const {
 	return m_indexer->shapeNumForPickableIndex(m_view->currentIndex().row());
+}
+
+
+void CShapePicker::setSelectedShape(int newShape) {
+	m_view->selectionModel()->clearSelection();
+
+	int canIndex = m_indexer->pickableIndexForShapeNum(newShape);
+	if (canIndex > -1)
+		m_view->selectionModel()->setCurrentIndex(m_model->index(canIndex), QItemSelectionModel::SelectCurrent);
 }

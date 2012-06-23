@@ -22,10 +22,12 @@ private:
 
 public:
 	void tileMousePress(const CMapPoint &tile, QMouseEvent *event);
-
+	void tileMouseAltAction(const CMapPoint &tile, QMouseEvent *event);
 
 public slots:
 	void setWhat(CMap::ObjectType type, int value);
+signals:
+	void shapePicked(int newValue);
 
 public:
 	CMap::ObjectType whatType() { return m_whatType; }

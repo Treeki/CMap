@@ -7,12 +7,22 @@ CShapeIndexer::CShapeIndexer(CMap::ObjectType objectType, CShapePool *pool) :
 
 
 void CShapeIndexer::setup() {
-	m_pickableIndices.clear();
+	resetPickableIndices();
 
 	for (int i = 0; i < m_pool->max(); i++) {
 		if (m_pool->exists(i))
-			m_pickableIndices.append(i);
+			addPickableIndex(i);
 	}
+}
+
+void CShapeIndexer::resetPickableIndices() {
+	m_pickableIndices.clear();
+	m_pickableIndexReverseLookup.clear();
+}
+
+void CShapeIndexer::addPickableIndex(int shapeNum) {
+	m_pickableIndexReverseLookup.insert(shapeNum, m_pickableIndices.count());
+	m_pickableIndices.append(shapeNum);
 }
 
 int CShapeIndexer::imageNumForShape(int shapeNum) const {
@@ -29,6 +39,10 @@ int CShapeIndexer::shapeNumForPickableIndex(int index) const {
 
 int CShapeIndexer::pickableIndexCount() const {
 	return m_pickableIndices.count();
+}
+
+int CShapeIndexer::pickableIndexForShapeNum(int index) const {
+	return m_pickableIndexReverseLookup.value(index, -1);
 }
 
 
@@ -58,6 +72,10 @@ int CRegionShapeIndexer::shapeNumForPickableIndex(int index) const {
 
 int CRegionShapeIndexer::pickableIndexCount() const {
 	return MAX_REGION + 1;
+}
+
+int CRegionShapeIndexer::pickableIndexForShapeNum(int index) const {
+	return (index <= MAX_REGION) ? index : -1;
 }
 
 
@@ -112,8 +130,8 @@ bool CWallShapeIndexer::shapeNumIsValid(int shapeNum) const {
 void CWallShapeIndexer::setup() {
 	// this class piggybacks on m_pickableIndices but builds its own
 
-	m_pickableIndices.clear();
-	m_pickableIndices.append(0);
+	resetPickableIndices();
+	addPickableIndex(0);
 
 	for (int texture = 0; texture < 20; texture++) {
 		for (int shape = 0; shape < 12; shape++) {
@@ -122,7 +140,7 @@ void CWallShapeIndexer::setup() {
 
 			int num = (texture * 12) + shape;
 			if (m_pool->exists(imageNumForShape(num)))
-				m_pickableIndices.append(num);
+				addPickableIndex(num);
 		}
 	}
 }

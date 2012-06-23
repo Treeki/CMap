@@ -120,6 +120,21 @@ void CBrushTool::tileMousePress(const CMapPoint &tile, QMouseEvent *event) {
 }
 
 
+void CBrushTool::tileMouseAltAction(const CMapPoint &tile, QMouseEvent *event) {
+	CCommandToolBase::tileMouseAltAction(tile, event);
+
+	int thing = widget()->map()->get(m_whatType, tile);
+	if (thing != m_whatValue) {
+		// update the tile before and after changing m_whatValue
+		widget()->updateTile(tile, (CEditableMap::UpdateType)m_whatType);
+		m_whatValue = thing;
+		widget()->updateTile(tile, (CEditableMap::UpdateType)m_whatType);
+
+		emit shapePicked(thing);
+	}
+}
+
+
 void CBrushTool::finaliseCommand() {
 	if (m_paintedSoFar.size() > 0) {
 		m_command->changes.reserve(m_paintedSoFar.size());
