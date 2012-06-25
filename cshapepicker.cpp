@@ -1,4 +1,5 @@
 #include "cshapepicker.h"
+#include "cshapeitemdelegate.h"
 
 #include <QListView>
 #include <QGridLayout>
@@ -10,6 +11,7 @@ CShapePicker::CShapePicker(CMap::ObjectType objectType, QWidget *parent) :
 	QGridLayout *layout = new QGridLayout;
 
 	m_view = new QListView(this);
+	m_view->setItemDelegate(new CShapeItemDelegate(this));
 
 	layout->addWidget(m_view, 0, 0, 1, 2);
 
