@@ -15,41 +15,19 @@ CMap::ObjectType CBrushTool::typesToPreview() {
 	return m_whatType;
 }
 
-int CBrushTool::whatItemFor(int x, int y, int normal) {
-	if (x == m_hoveredHalfX && y == m_hovered.y)
-		return m_whatValue;
-	else
-		return m_paintedSoFar.value(CMap::positionKey(x * 2, y), normal);
+int CBrushTool::whatThingFor(CMap::ObjectType type, int x, int y, int normal) {
+	if (type & CMap::Wall && m_whatType & CMap::Wall) {
+		if (x == m_hovered.x && y == m_hovered.y)
+			return m_whatValue;
+		else
+			return m_paintedSoFar.value(CMap::positionKey(x, y), normal);
+	} else {
+		if (x == m_hoveredHalfX && y == m_hovered.y)
+			return m_whatValue;
+		else
+			return m_paintedSoFar.value(CMap::positionKey(x * 2, y), normal);
+	}
 }
-
-int CBrushTool::whatFloorFor(int x, int y, int normal) {
-	if (x == m_hoveredHalfX && y == m_hovered.y)
-		return m_whatValue;
-	else
-		return m_paintedSoFar.value(CMap::positionKey(x * 2, y), normal);
-}
-
-int CBrushTool::whatWallFor(int x, int y, int normal) {
-	if (x == m_hovered.x && y == m_hovered.y)
-		return m_whatValue;
-	else
-		return m_paintedSoFar.value(CMap::positionKey(x, y), normal);
-}
-
-int CBrushTool::whatRegionFor(int x, int y, int normal) {
-	if (x == m_hoveredHalfX && y == m_hovered.y)
-		return m_whatValue;
-	else
-		return m_paintedSoFar.value(CMap::positionKey(x * 2, y), normal);
-}
-
-int CBrushTool::whatEffectFor(int x, int y, int normal) {
-	if (x == m_hoveredHalfX && y == m_hovered.y)
-		return m_whatValue;
-	else
-		return m_paintedSoFar.value(CMap::positionKey(x * 2, y), normal);
-}
-
 
 void CBrushTool::setWhat(CMap::ObjectType type, int value) {
 	m_whatType = type;

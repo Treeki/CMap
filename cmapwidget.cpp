@@ -81,7 +81,7 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 		for (int x = minX; x < maxX; x++) {
 			int floorNum = m_map->randomisedFloor(x, y);
 			if (toPreview & CMap::Floor)
-				floorNum = m_currentTool->whatFloorFor(x, y, floorNum);
+				floorNum = m_currentTool->whatThingFor(CMap::Floor, x, y, floorNum);
 
 			paintShape(painter, rect, x, y, m_patches->floors, floorNum);
 		}
@@ -92,7 +92,7 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 		for (int x = minX; x < maxX; x++) {
 			int regionNum = m_map->regions[x][y];
 			if (toPreview & CMap::Region)
-				regionNum = m_currentTool->whatRegionFor(x, y, regionNum);
+				regionNum = m_currentTool->whatThingFor(CMap::Region, x, y, regionNum);
 
 			if (regionNum > 0)
 				paintShape(painter, rect, x, y, m_patches->regions, m_patches->regionIndexer.imageNumForShape(regionNum));
@@ -111,7 +111,7 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 		for (int x = minX; x < maxX; x++) {
 			int leftWall = m_map->walls[x*2][y];
 			if (toPreview & CMap::LeftWall)
-				leftWall = m_currentTool->whatWallFor(x*2, y, leftWall);
+				leftWall = m_currentTool->whatThingFor(CMap::LeftWall, x*2, y, leftWall);
 
 			if (leftWall > 0)
 				paintShape(painter, rect, x, y, m_patches->walls, m_patches->wallIndexer.imageNumForShape(leftWall) + 1, -16, -8);
@@ -119,7 +119,7 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 
 			int rightWall = m_map->walls[x*2+1][y];
 			if (toPreview & CMap::RightWall)
-				rightWall = m_currentTool->whatWallFor(x*2+1, y, rightWall);
+				rightWall = m_currentTool->whatThingFor(CMap::RightWall, x*2+1, y, rightWall);
 
 			if (rightWall > 0)
 				paintShape(painter, rect, x, y, m_patches->walls, m_patches->wallIndexer.imageNumForShape(rightWall), 16, -8);
@@ -127,7 +127,7 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 
 			int itemNum = m_map->randomisedItem(x, y);
 			if (toPreview & CMap::Item)
-				itemNum = m_currentTool->whatItemFor(x, y, itemNum);
+				itemNum = m_currentTool->whatThingFor(CMap::Item, x, y, itemNum);
 
 			if (itemNum > 0)
 				paintShape(painter, rect, x, y, m_patches->items, itemNum);
@@ -135,7 +135,7 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 
 			int effectNum = m_map->effects[x][y];
 			if (toPreview & CMap::Effect)
-				effectNum = m_currentTool->whatEffectFor(x, y, effectNum);
+				effectNum = m_currentTool->whatThingFor(CMap::Effect, x, y, effectNum);
 
 			if (effectNum > 0)
 				paintShape(painter, rect, x, y, m_patches->effects, effectNum);
@@ -184,7 +184,7 @@ void CMapWidget::updateTile(int x, int y, CEditableMap::UpdateType type) {
 	if (type & CEditableMap::FloorUpdate) {
 		int num = m_map->randomisedFloor(x, y);
 		if (toPreview & CMap::Floor)
-			num = m_currentTool->whatFloorFor(x, y, num);
+			num = m_currentTool->whatThingFor(CMap::Floor, x, y, num);
 
 		if (m_patches->floors.exists(num)) {
 			const CShape &shape = m_patches->floors[num];
@@ -198,7 +198,7 @@ void CMapWidget::updateTile(int x, int y, CEditableMap::UpdateType type) {
 	if (type & CEditableMap::ItemUpdate) {
 		int num = m_map->randomisedItem(x, y);
 		if (toPreview & CMap::Item)
-			num = m_currentTool->whatItemFor(x, y, num);
+			num = m_currentTool->whatThingFor(CMap::Item, x, y, num);
 
 		if (num > 0 && m_patches->items.exists(num)) {
 			const CShape &shape = m_patches->items[num];
@@ -212,7 +212,7 @@ void CMapWidget::updateTile(int x, int y, CEditableMap::UpdateType type) {
 	if (type & CEditableMap::LeftWallUpdate) {
 		int num = m_map->walls[x*2][y];
 		if (toPreview & CMap::LeftWall)
-			num = m_currentTool->whatWallFor(x*2, y, num);
+			num = m_currentTool->whatThingFor(CMap::LeftWall, x*2, y, num);
 
 		num = m_patches->wallIndexer.imageNumForShape(num) + 1;
 
@@ -228,7 +228,7 @@ void CMapWidget::updateTile(int x, int y, CEditableMap::UpdateType type) {
 	if (type & CEditableMap::RightWallUpdate) {
 		int num = m_map->walls[x*2+1][y];
 		if (toPreview & CMap::RightWall)
-			num = m_currentTool->whatWallFor(x*2+1, y, num);
+			num = m_currentTool->whatThingFor(CMap::RightWall, x*2+1, y, num);
 
 		num = m_patches->wallIndexer.imageNumForShape(num);
 
@@ -244,7 +244,7 @@ void CMapWidget::updateTile(int x, int y, CEditableMap::UpdateType type) {
 	if (type & CEditableMap::RegionUpdate) {
 		int num = m_map->regions[x][y];
 		if (toPreview & CMap::Region)
-			num = m_currentTool->whatRegionFor(x, y, num);
+			num = m_currentTool->whatThingFor(CMap::Region, x, y, num);
 
 		num = m_patches->regionIndexer.imageNumForShape(num);
 
@@ -260,7 +260,7 @@ void CMapWidget::updateTile(int x, int y, CEditableMap::UpdateType type) {
 	if (type & CEditableMap::EffectUpdate) {
 		int num = m_map->effects[x][y];
 		if (toPreview & CMap::Effect)
-			num = m_currentTool->whatEffectFor(x, y, num);
+			num = m_currentTool->whatThingFor(CMap::Effect, x, y, num);
 
 		if (num > 0 && m_patches->effects.exists(num)) {
 			const CShape &shape = m_patches->effects[num];

@@ -33,11 +33,7 @@ public:
 	CMap::ObjectType whatType() { return m_whatType; }
 	int whatValue() { return m_whatValue; }
 
-	int whatItemFor(int x, int y, int normal);
-	int whatFloorFor(int x, int y, int normal);
-	int whatWallFor(int x, int y, int normal);
-	int whatRegionFor(int x, int y, int normal);
-	int whatEffectFor(int x, int y, int normal);
+	int whatThingFor(CMap::ObjectType type, int x, int y, int normal);
 
 	CMap::ObjectType typesToPreview();
 

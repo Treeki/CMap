@@ -14,11 +14,10 @@ public:
 
 	virtual CMap::ObjectType typesToPreview() { return CMap::NoObject; }
 
-	virtual int whatFloorFor(int x, int y, int normal) { (void)x; (void)y; return normal; }
-	virtual int whatItemFor(int x, int y, int normal) { (void)x; (void)y; return normal; }
-	virtual int whatWallFor(int x, int y, int normal) { (void)x; (void)y; return normal; }
-	virtual int whatRegionFor(int x, int y, int normal) { (void)x; (void)y; return normal; }
-	virtual int whatEffectFor(int x, int y, int normal) { (void)x; (void)y; return normal; }
+	virtual int whatThingFor(CMap::ObjectType type, int x, int y, int normal) {
+		(void)x; (void)y; (void)type;
+		return normal;
+	}
 
 	virtual void hoverStatusChanged(
 			bool fromValid, const CMapPoint &from,
