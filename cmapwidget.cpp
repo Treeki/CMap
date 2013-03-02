@@ -79,9 +79,10 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 	// Floors layer
 	for (int y = minY; y < maxY; y++) {
 		for (int x = minX; x < maxX; x++) {
-			int floorNum = m_map->randomisedFloor(x, y);
+			int floorNum = m_map->floors[x][y];
 			if (toPreview & CMap::Floor)
 				floorNum = m_currentTool->whatThingFor(CMap::Floor, x, y, floorNum);
+			floorNum = m_map->randomisedFloor(x, y, floorNum);
 
 			paintShape(painter, rect, x, y, m_patches->floors, floorNum);
 		}
@@ -125,9 +126,10 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 				paintShape(painter, rect, x, y, m_patches->walls, m_patches->wallIndexer.imageNumForShape(rightWall), 16, -8);
 
 
-			int itemNum = m_map->randomisedItem(x, y);
+			int itemNum = m_map->items[x][y];
 			if (toPreview & CMap::Item)
 				itemNum = m_currentTool->whatThingFor(CMap::Item, x, y, itemNum);
+			itemNum = m_map->randomisedItem(x, y, itemNum);
 
 			if (itemNum > 0)
 				paintShape(painter, rect, x, y, m_patches->items, itemNum);
@@ -182,9 +184,10 @@ void CMapWidget::updateTile(int x, int y, CEditableMap::UpdateType type) {
 	}
 
 	if (type & CEditableMap::FloorUpdate) {
-		int num = m_map->randomisedFloor(x, y);
+		int num = m_map->floors[x][y];
 		if (toPreview & CMap::Floor)
 			num = m_currentTool->whatThingFor(CMap::Floor, x, y, num);
+		num = m_map->randomisedFloor(x, y, num);
 
 		if (m_patches->floors.exists(num)) {
 			const CShape &shape = m_patches->floors[num];
@@ -196,9 +199,10 @@ void CMapWidget::updateTile(int x, int y, CEditableMap::UpdateType type) {
 	}
 
 	if (type & CEditableMap::ItemUpdate) {
-		int num = m_map->randomisedItem(x, y);
+		int num = m_map->items[x][y];
 		if (toPreview & CMap::Item)
 			num = m_currentTool->whatThingFor(CMap::Item, x, y, num);
+		num = m_map->randomisedItem(x, y, num);
 
 		if (num > 0 && m_patches->items.exists(num)) {
 			const CShape &shape = m_patches->items[num];
