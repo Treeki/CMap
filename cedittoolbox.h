@@ -4,9 +4,11 @@
 #include <QWidget>
 #include <QAction>
 #include <QToolButton>
+#include <QToolBar>
 #include "cobjectpicker.h"
 
 #include "cbrushtool.h"
+#include "clinetool.h"
 
 class CMapWidget;
 
@@ -21,13 +23,19 @@ public:
 	void cleanup();
 	
 private:
-	QToolButton *createActionToolButton(QAction *action);
+	QToolBar *m_toolbar;
+	QActionGroup *m_toolActions;
+	QAction *m_brushToolAction, *m_lineToolAction;
 
 	CObjectPicker *m_objectPicker;
 
 	CMapWidget *m_mapWidget;
 
 	CBrushTool *m_brushTool;
+	CLineTool *m_lineTool;
+
+private slots:
+	void toolActionActivated(QAction *action);
 };
 
 #endif // CEDITTOOLBOX_H

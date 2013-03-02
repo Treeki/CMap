@@ -47,6 +47,7 @@ it up and make it work with whatever gets added to Furcadia later on.
 - Loading/saving of maps; patch loading (but not configurable settings)
 - Rudimentary object picker
 - Basic brush tool
+- Basic line tool
 - Map widget that displays and edits a map, with scrolling and zooming in/out
 - Undo/Redo with multiple levels
 - Loading of FOX and FSH/FBJ files
@@ -56,7 +57,7 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 ## Object Picker:
 
-- nicer rendering
+- nicer look
 - saving of scroll position when resizing
 - FBJ flag display
 - a way to jump to a specific shape number
@@ -83,19 +84,30 @@ it up and make it work with whatever gets added to Furcadia later on.
 - Picking of items below the cursor (Could be added to CCommandToolBase?)
 - Larger brushes
 
+## Line Tool:
+
+- Sanity check so you can't paint outside the map and crash the editor
+- Fix the line length for cardinal directions
+- Nicer undo command messages
+
 ## Other Editing Features:
 
-- Tools: Selection, flood fill, line, rectangle, ...
+- Tools: Selection, flood fill, line, rectangle/diamond, ...
 - Copy/paste
 - "Clips" feature, similar to Dreamer Reloaded
 
 ## Minor (Short term) Things:
 
+- Dream Settings (this is pretty important...!)
 - "Open Recent" (MRU list)
 - About dialog
 - Make Open/Save dialogs remember their last directory
 
-Of course, I'm sure there's lots of stuff I've missed.
+Of course, I'm sure there's lots of stuff I've missed. I'd like to release an
+initial Alpha pretty soon - perhaps once I get it to feature parity with the
+standard Dream Editor. I think implementing the stuff in that last section
+plus flood fill should get me to that level, so we'll see! Really looking
+forward to that.
 
 I'd love to eventually expand into other tools - a DS editor, patch editor,
 and even a walkthrough mode - but these are lofty goals and I'm going to work

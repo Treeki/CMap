@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     cundostack.cpp \
     utility.cpp \
     cshapeindexer.cpp \
-    cshapeitemdelegate.cpp
+    cshapeitemdelegate.cpp \
+    clinetool.cpp
 
 HEADERS  += \
     cpatchfile.h \
@@ -53,7 +54,8 @@ HEADERS  += \
     cundostack.h \
     utility.h \
     cshapeindexer.h \
-    cshapeitemdelegate.h
+    cshapeitemdelegate.h \
+    clinetool.h
 
 FORMS    +=
 
