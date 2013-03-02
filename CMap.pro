@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-
+QMAKE_CXXFLAGS += -std=c++11
 TARGET = CMap
 TEMPLATE = app
 
