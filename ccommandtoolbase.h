@@ -13,7 +13,7 @@ public:
 	void tileMouseRelease(const CMapPoint &tile, QMouseEvent *event);
 	void deactivate();
 
-	bool commandActive() { return (m_command != 0); }
+	bool commandActive() const { return (m_command != 0); }
 
 protected:
 	CEditCommand *m_command;

@@ -30,12 +30,12 @@ signals:
 	void shapePicked(int newValue);
 
 public:
-	CMap::ObjectType whatType() { return m_whatType; }
-	int whatValue() { return m_whatValue; }
+	CMap::ObjectType whatType() const { return m_whatType; }
+	int whatValue() const { return m_whatValue; }
 
-	int whatThingFor(CMap::ObjectType type, int x, int y, int normal);
+	int whatThingFor(CMap::ObjectType type, int x, int y, int normal) const;
 
-	CMap::ObjectType typesToPreview();
+	CMap::ObjectType typesToPreview() const;
 
 	void hoverStatusChanged(bool fromValid, const CMapPoint &from, bool toValid, const CMapPoint &to, QMouseEvent *event);
 

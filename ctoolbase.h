@@ -12,9 +12,9 @@ class CToolBase : public QObject {
 public:
 	explicit CToolBase(QObject *parent = 0);
 
-	virtual CMap::ObjectType typesToPreview() { return CMap::NoObject; }
+	virtual CMap::ObjectType typesToPreview() const { return CMap::NoObject; }
 
-	virtual int whatThingFor(CMap::ObjectType type, int x, int y, int normal) {
+	virtual int whatThingFor(CMap::ObjectType type, int x, int y, int normal) const {
 		(void)x; (void)y; (void)type;
 		return normal;
 	}
@@ -40,7 +40,7 @@ private:
 
 public:
 	void setMapWidget(CMapWidget *mw) { m_widget = mw; }
-	CMapWidget *widget() { return m_widget; }
+	CMapWidget *widget() const { return m_widget; }
 
 signals:
 	

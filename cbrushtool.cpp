@@ -11,11 +11,11 @@ CBrushTool::CBrushTool(QObject *parent) : CCommandToolBase(parent) {
 
 
 
-CMap::ObjectType CBrushTool::typesToPreview() {
+CMap::ObjectType CBrushTool::typesToPreview() const {
 	return m_whatType;
 }
 
-int CBrushTool::whatThingFor(CMap::ObjectType type, int x, int y, int normal) {
+int CBrushTool::whatThingFor(CMap::ObjectType type, int x, int y, int normal) const {
 	if (type & CMap::Wall && m_whatType & CMap::Wall) {
 		if (x == m_hovered.x && y == m_hovered.y)
 			return m_whatValue;
