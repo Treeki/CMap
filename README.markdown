@@ -10,6 +10,10 @@ It's written in C++ using the Qt framework, which means that it's fully
 compatible with Windows, Linux and Mac OS, as well as anything else supported
 by Qt. :p
 
+I develop and test with Qt 5. It *may* compile with Qt 4, but I can't
+guarantee that. Will try to make that happen for an eventual official alpha
+release though!
+
 # Design Ideas/Philosophy
 
 I've been dreamweaving for 8 years and used pretty much every dream editor

@@ -1,9 +1,10 @@
 #include "utility.h"
 #include <QDirIterator>
 
-#if defined Q_WS_WIN
+#if defined(Q_WS_WIN) || defined(Q_OS_WIN)
 #define cDoNothing
-#elif defined Q_WS_X11 || Q_WS_MAC
+#elif defined(Q_WS_X11) || defined(Q_WS_MAC) || defined(Q_OS_LINUX) \
+	|| defined(Q_OS_UNIX) || defined(Q_OS_MAC)
 #define cFixRegular
 #else
 #error "Unknown OS for path manipulation (utility.cpp)"

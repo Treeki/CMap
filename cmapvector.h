@@ -3,6 +3,7 @@
 
 #include <QtGlobal>
 #include "cmappoint.h"
+#include <cstring>
 
 template <typename TValue, int TColumns, bool TIsMultiplied>
 class CMapVector {
@@ -15,7 +16,7 @@ public:
 		m_width = 0;
 		m_height = 0;
 
-		qMemSet(m_columns, 0, sizeof(m_columns));
+		memset(m_columns, 0, sizeof(m_columns));
 	}
 
 	~CMapVector() {
@@ -42,7 +43,7 @@ public:
 		if (newWidth > oldWidth) {
 			for (int x = oldWidth; x < newWidth; x++) {
 				m_columns[x] = new TValue[newHeight];
-				qMemSet(m_columns[x], 0, sizeof(TValue) * newHeight);
+				memset(m_columns[x], 0, sizeof(TValue) * newHeight);
 			}
 		}
 
@@ -54,11 +55,11 @@ public:
 			for (int x = 0; x < existingBound; x++) {
 				TValue *newColumn = new TValue[newHeight];
 
-				qMemCopy(newColumn, m_columns[x], sizeof(TValue) * copyCount);
+				memcpy(newColumn, m_columns[x], sizeof(TValue) * copyCount);
 
 				// Fill in empty space if there's any
 				if (newHeight > oldHeight) {
-					qMemSet(&newColumn[oldHeight], 0, sizeof(TValue) * (newHeight - oldHeight));
+					memset(&newColumn[oldHeight], 0, sizeof(TValue) * (newHeight - oldHeight));
 				}
 
 				// replace the array
