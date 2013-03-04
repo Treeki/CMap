@@ -51,3 +51,33 @@ void CObjectPicker::handleSelectedShapeChanged(int shape) {
 void CObjectPicker::setSelectedShape(int newShape) {
 	m_pickers[m_tabs->currentIndex()]->setSelectedShape(newShape);
 }
+
+
+
+void CObjectPicker::prevObject() {
+	jumpObjectsBy(-1);
+}
+void CObjectPicker::nextObject() {
+	jumpObjectsBy(1);
+}
+void CObjectPicker::prev8Objects() {
+	jumpObjectsBy(-8);
+}
+void CObjectPicker::next8Objects() {
+	jumpObjectsBy(8);
+}
+
+void CObjectPicker::jumpObjectsBy(int amount) {
+	auto picker = m_pickers[m_tabs->currentIndex()];
+	auto indexer = picker->indexer();
+
+	int currentPickableIndex = indexer->pickableIndexForShapeNum(picker->selectedShape());
+	int newPickableIndex = currentPickableIndex + amount;
+
+	if (newPickableIndex < 0)
+		newPickableIndex = 0;
+	if (newPickableIndex >= indexer->pickableIndexCount())
+		newPickableIndex = indexer->pickableIndexCount() - 1;
+
+	picker->setSelectedShape(indexer->shapeNumForPickableIndex(newPickableIndex));
+}

@@ -29,10 +29,12 @@ int CBrushTool::whatThingFor(CMap::ObjectType type, int x, int y, int normal) co
 	}
 }
 
+
 void CBrushTool::setWhat(CMap::ObjectType type, int value) {
+	widget()->updateTile(m_hovered, (CEditableMap::UpdateType)m_whatType);
 	m_whatType = type;
 	m_whatValue = value;
-	// TODO: figure out if we need to refresh anything here?
+	widget()->updateTile(m_hovered, (CEditableMap::UpdateType)m_whatType);
 }
 
 

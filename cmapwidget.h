@@ -35,6 +35,9 @@ protected:
 public slots:
 	void updateTile(int x, int y, CEditableMap::UpdateType type = CEditableMap::EverythingUpdate);
 	void updateTile(const CMapPoint &pos, CEditableMap::UpdateType type = CEditableMap::EverythingUpdate) {
+		if (!pos.isValid())
+			return;
+
 		if (type & CEditableMap::WallUpdate) {
 			type = (CEditableMap::UpdateType)(type & ~CEditableMap::WallUpdate);
 			type = (CEditableMap::UpdateType)(type | ((pos.x & 1) ? CEditableMap::RightWallUpdate : CEditableMap::LeftWallUpdate));

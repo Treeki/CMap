@@ -30,9 +30,10 @@ int CLineTool::whatThingFor(CMap::ObjectType type, int x, int y, int normal) con
 }
 
 void CLineTool::setWhat(CMap::ObjectType type, int value) {
+	widget()->updateTile(m_hovered, (CEditableMap::UpdateType)m_whatType);
 	m_whatType = type;
 	m_whatValue = value;
-	// TODO: figure out if we need to refresh anything here?
+	widget()->updateTile(m_hovered, (CEditableMap::UpdateType)m_whatType);
 }
 
 

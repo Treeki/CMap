@@ -28,10 +28,33 @@ CEditToolbox::CEditToolbox(QWidget *parent) :
 	layout->addWidget(m_toolbar);
 	layout->addWidget(m_objectPicker, 1);
 
+	setupKeyActions();
+
 	setLayout(layout);
 }
 
 CEditToolbox::~CEditToolbox() {
+}
+
+
+void CEditToolbox::setupKeyActions() {
+	addAction(m_prevObjAction = new QAction("Previous Object", this));
+	m_prevObjAction->setShortcut(Qt::Key_Minus);
+
+	addAction(m_nextObjAction = new QAction("Next Object", this));
+	QList<QKeySequence> nextObjKeys = {Qt::Key_Equal, Qt::Key_Plus};
+	m_nextObjAction->setShortcuts(nextObjKeys);
+
+	addAction(m_prev8ObjAction = new QAction("Previous 8 Objects", this));
+	m_prev8ObjAction->setShortcut(Qt::Key_Comma);
+
+	addAction(m_next8ObjAction = new QAction("Next 8 Objects", this));
+	m_next8ObjAction->setShortcut(Qt::Key_Period);
+
+	connect(m_prevObjAction, SIGNAL(triggered()), m_objectPicker, SLOT(prevObject()));
+	connect(m_nextObjAction, SIGNAL(triggered()), m_objectPicker, SLOT(nextObject()));
+	connect(m_prev8ObjAction, SIGNAL(triggered()), m_objectPicker, SLOT(prev8Objects()));
+	connect(m_next8ObjAction, SIGNAL(triggered()), m_objectPicker, SLOT(next8Objects()));
 }
 
 

@@ -59,7 +59,7 @@ struct CMapPoint {
 	}
 
 	bool isValid() const {
-		return (x != 0xFFFF);
+		return (x < 0xFFFE);
 	}
 
 	bool intersectsLine(int withX, int withY, int multiplier) const {

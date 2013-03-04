@@ -21,7 +21,7 @@ public:
 
 	void setup(CMapWidget *mw);
 	void cleanup();
-	
+
 private:
 	QToolBar *m_toolbar;
 	QActionGroup *m_toolActions;
@@ -33,6 +33,11 @@ private:
 
 	CBrushTool *m_brushTool;
 	CLineTool *m_lineTool;
+
+	void setupKeyActions();
+
+	QAction *m_prevObjAction, *m_nextObjAction;
+	QAction *m_prev8ObjAction, *m_next8ObjAction;
 
 private slots:
 	void toolActionActivated(QAction *action);

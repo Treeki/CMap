@@ -25,8 +25,22 @@ signals:
 	void selectionChanged(CMap::ObjectType objectType, int value);
 	
 public slots:
+	void prevObject();
+	void nextObject();
+	void prev8Objects();
+	void next8Objects();
+
+	void jumpObjectsBy(int amount);
+
 	void setSelectedShape(int newShape);
 	
+public:
+	CMap::ObjectType objectType() const {
+		return m_pickers[m_tabs->currentIndex()]->objectType();
+	}
+	int selectedShape() const {
+		return m_pickers[m_tabs->currentIndex()]->selectedShape();
+	}
 };
 
 #endif // COBJECTPICKER_H

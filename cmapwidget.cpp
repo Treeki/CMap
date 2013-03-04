@@ -455,7 +455,7 @@ void CMapWidget::mouseReleaseEvent(QMouseEvent *event) {
 		m_currentTool->tileMouseRelease(clicked, event);
 	} else {
 		// call this whether it's valid or not
-		m_currentTool->tileMouseRelease(CMapPoint(9999, 9999), event);
+		m_currentTool->tileMouseRelease(CMapPoint(), event);
 	}
 
 	if (event->button() == Qt::RightButton) {
@@ -470,7 +470,7 @@ void CMapWidget::leaveEvent(QEvent *) {
 	if (!m_map || !m_patches)
 		return;
 
-	CMapPoint nullp(9999, 9999);
+	CMapPoint nullp;
 
 	m_currentTool->hoverStatusChanged(isHovering, hovered, false, nullp, 0);
 

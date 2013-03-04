@@ -30,6 +30,8 @@ public:
 	CMap::ObjectType objectType() const { return m_objectType; }
 	int selectedShape() const { return m_selectedShape; }
 
+	CShapeIndexer *indexer() const { return m_indexer; }
+
 public slots:
 	void setSelectedShape(int newShape);
 signals:

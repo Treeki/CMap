@@ -11,6 +11,7 @@
 #include <QToolBar>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QKeySequence>
 
 CEditorWindow::CEditorWindow(QWidget *parent) :
 	QMainWindow(parent),
