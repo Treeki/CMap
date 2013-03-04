@@ -24,15 +24,16 @@ protected:
 	QListView *m_view;
 
 	CMap::ObjectType m_objectType;
+	int m_selectedShape;
 	
 public:
 	CMap::ObjectType objectType() const { return m_objectType; }
+	int selectedShape() const { return m_selectedShape; }
 
-	int selectedItem() const;
 public slots:
 	void setSelectedShape(int newShape);
 signals:
-	void selectedItemChanged(int item);
+	void selectedShapeChanged(int shape);
 	
 protected slots:
 	void handleRowChanged(const QModelIndex &current, const QModelIndex &previous);

@@ -25,7 +25,7 @@ CShapePicker::CShapePicker(CMap::ObjectType objectType, QWidget *parent) :
 
 	// hook up all signals that don't depend on the ShapeModel or
 	// SelectionModel (as we'll do that in setup() later)
-	connect(this, SIGNAL(selectedItemChanged(int)), m_typeSpinBox, SLOT(setValue(int)));
+	connect(this, SIGNAL(selectedShapeChanged(int)), m_typeSpinBox, SLOT(setValue(int)));
 	connect(m_typeSpinBox, SIGNAL(valueChanged(int)), SLOT(setSelectedShape(int)));
 }
 
@@ -59,11 +59,10 @@ void CShapePicker::setup(CShapeIndexer *indexer) {
 void CShapePicker::handleRowChanged(const QModelIndex &current, const QModelIndex &previous) {
 	(void)previous;
 
-	emit selectedItemChanged(m_indexer->shapeNumForPickableIndex(current.row()));
-}
-
-int CShapePicker::selectedItem() const {
-	return m_indexer->shapeNumForPickableIndex(m_view->currentIndex().row());
+	if (current.isValid()) {
+		m_selectedShape = m_indexer->shapeNumForPickableIndex(current.row());
+		emit selectedShapeChanged(m_selectedShape);
+	}
 }
 
 
@@ -71,6 +70,10 @@ void CShapePicker::setSelectedShape(int newShape) {
 	m_view->selectionModel()->clearSelection();
 
 	int canIndex = m_indexer->pickableIndexForShapeNum(newShape);
-	if (canIndex > -1)
+	if (canIndex > -1) {
 		m_view->selectionModel()->setCurrentIndex(m_model->index(canIndex), QItemSelectionModel::SelectCurrent);
+	} else if (newShape >= 0 && newShape < m_indexer->pool()->max()) {
+		m_selectedShape = newShape;
+		emit selectedShapeChanged(m_selectedShape);
+	}
 }

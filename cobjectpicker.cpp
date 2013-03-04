@@ -22,7 +22,7 @@ CObjectPicker::CObjectPicker(QWidget *parent) : QWidget(parent) {
 	connect(m_tabs, SIGNAL(currentChanged(int)), SLOT(handleCurrentTabChanged(int)));
 
 	for (int i = 0; i < 5; i++)
-		connect(m_pickers[i], SIGNAL(selectedItemChanged(int)), SLOT(handleSelectedItemChanged(int)));
+		connect(m_pickers[i], SIGNAL(selectedShapeChanged(int)), SLOT(handleSelectedShapeChanged(int)));
 
 	layout->addWidget(m_tabs);
 
@@ -40,11 +40,11 @@ void CObjectPicker::setup(CPatchContext *context) {
 
 
 void CObjectPicker::handleCurrentTabChanged(int index) {
-	emit selectionChanged(m_pickers[index]->objectType(), m_pickers[index]->selectedItem());
+	emit selectionChanged(m_pickers[index]->objectType(), m_pickers[index]->selectedShape());
 }
 
-void CObjectPicker::handleSelectedItemChanged(int item) {
-	emit selectionChanged(m_pickers[m_tabs->currentIndex()]->objectType(), item);
+void CObjectPicker::handleSelectedShapeChanged(int shape) {
+	emit selectionChanged(m_pickers[m_tabs->currentIndex()]->objectType(), shape);
 }
 
 

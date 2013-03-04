@@ -18,7 +18,7 @@ protected:
 	QTabWidget *m_tabs;
 
 protected slots:
-	void handleSelectedItemChanged(int item);
+	void handleSelectedShapeChanged(int shape);
 	void handleCurrentTabChanged(int index);
 
 signals:
