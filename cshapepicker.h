@@ -5,6 +5,8 @@
 #include "cmap.h"
 #include "cshapemodel.h"
 
+class QSpinBox;
+
 class QListView;
 
 class CShapePicker : public QWidget {
@@ -18,6 +20,7 @@ protected:
 	CShapeModel *m_model;
 	CShapeIndexer *m_indexer;
 
+	QSpinBox *m_typeSpinBox;
 	QListView *m_view;
 
 	CMap::ObjectType m_objectType;
@@ -25,15 +28,14 @@ protected:
 public:
 	CMap::ObjectType objectType() const { return m_objectType; }
 
-	void setSelectedShape(int newShape);
-
 	int selectedItem() const;
+public slots:
+	void setSelectedShape(int newShape);
 signals:
 	void selectedItemChanged(int item);
 	
 protected slots:
 	void handleRowChanged(const QModelIndex &current, const QModelIndex &previous);
-
 };
 
 #endif // CSHAPEPICKER_H

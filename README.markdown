@@ -64,7 +64,6 @@ it up and make it work with whatever gets added to Furcadia later on.
 - nicer look
 - saving of scroll position when resizing
 - FBJ flag display
-- a way to jump to a specific shape number
 - a way to open up a temporary larger picker, similar to DreamEd's
 - a shortcut for selecting "no object" (or wall, region, etc) without
   scrolling to the top of the list

@@ -2,7 +2,9 @@
 #include "cshapeitemdelegate.h"
 
 #include <QListView>
+#include <QSpinBox>
 #include <QGridLayout>
+#include <QLabel>
 
 CShapePicker::CShapePicker(CMap::ObjectType objectType, QWidget *parent) :
 	QWidget(parent), m_objectType(objectType),
@@ -13,9 +15,18 @@ CShapePicker::CShapePicker(CMap::ObjectType objectType, QWidget *parent) :
 	m_view = new QListView(this);
 	m_view->setItemDelegate(new CShapeItemDelegate(this));
 
+	m_typeSpinBox = new QSpinBox(this);
+
 	layout->addWidget(m_view, 0, 0, 1, 2);
+	layout->addWidget(new QLabel("Number:", this), 1, 0, 1, 1);
+	layout->addWidget(m_typeSpinBox, 1, 1, 1, 1);
 
 	setLayout(layout);
+
+	// hook up all signals that don't depend on the ShapeModel or
+	// SelectionModel (as we'll do that in setup() later)
+	connect(this, SIGNAL(selectedItemChanged(int)), m_typeSpinBox, SLOT(setValue(int)));
+	connect(m_typeSpinBox, SIGNAL(valueChanged(int)), SLOT(setSelectedShape(int)));
 }
 
 
@@ -36,6 +47,8 @@ void CShapePicker::setup(CShapeIndexer *indexer) {
 	m_view->setViewMode(QListView::IconMode);
 	m_view->setResizeMode(QListView::Adjust);
 	m_view->setUniformItemSizes(true);
+
+	m_typeSpinBox->setRange(0, indexer->pool()->max() - 1);
 
 	setSelectedShape(0);
 
