@@ -94,6 +94,9 @@ public:
 
 	StandardType standard;
 
+	static const int StandardCount = 6;
+	static const char *StandardNames[StandardCount];
+
 	bool allowSummon, allowFollow, allowURLs;
 	bool enableFilter, parentalWarning;
 	bool restrictSitting;

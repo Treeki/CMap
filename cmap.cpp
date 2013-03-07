@@ -62,7 +62,7 @@ int CMap::get(CMap::ObjectType type, const CMapPoint &pos) {
 }
 
 
-static const char *StandardNames[6] = {
+const char *CMap::StandardNames[CMap::StandardCount] = {
 	"Everyone 8+",
 	"Teen+",
 	"Mature 16+",
@@ -70,7 +70,6 @@ static const char *StandardNames[6] = {
 	"Adults Only",
 	"AOClean"
 };
-static const int StandardCount = 6;
 
 
 bool CMap::load(QString filePath) {
