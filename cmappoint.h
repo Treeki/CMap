@@ -18,7 +18,7 @@ enum OrdinalDirection {
 struct CMapPoint {
 	quint16 x, y;
 
-	CMapPoint() { x = 0xFFFF; }
+	CMapPoint() { x = 0xFFFF; y = 0xFFFF; }
 	CMapPoint(int _x, int _y) { x = _x; y = _y; }
 
 	bool operator==(CMapPoint &other) const {
@@ -112,6 +112,10 @@ enum LineAngle {
 struct CLine {
 	CMapPoint start, end;
 	LineAngle angle;
+
+	CLine() {
+		angle = INVALID_LINE_ANGLE;
+	}
 
 	bool operator==(CLine &other) const {
 		return (angle == other.angle) &&

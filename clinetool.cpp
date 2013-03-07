@@ -5,8 +5,6 @@
 CLineTool::CLineTool(QObject *parent) : CCommandToolBase(parent) {
 	m_whatType = CMap::Item;
 	m_whatValue = 1;
-	m_hovered.x = -1;
-	m_hovered.y = -1;
 }
 
 
