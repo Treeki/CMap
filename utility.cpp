@@ -18,7 +18,7 @@ bool cCaseInsensitiveCd(QDir &dir, const QString &dirName) {
 		// for (those that use cFixRegular) will use the typical /-separated
 		// paths. If not, oh well... no CMap on Haiku or Mac OS 9, I guess :(
 
-		QStringList pieces = dirName.split('/');
+		QStringList pieces = dirName.split(QRegExp("[\\\\/]"));
 
 		foreach (const QString &piece, pieces) {
 			if (!dir.cd(piece)) {
