@@ -283,7 +283,8 @@ void CMapWidget::setTool(CToolBase *tool) {
 	}
 
 	m_currentTool = tool;
-	tool->activate();
+	if (tool)
+		tool->activate();
 }
 
 

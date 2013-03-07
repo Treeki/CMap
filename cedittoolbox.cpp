@@ -92,6 +92,8 @@ void CEditToolbox::setup(CMapWidget *mw) {
 
 
 void CEditToolbox::cleanup() {
+	if (m_mapWidget)
+		m_mapWidget->setTool(0);
 	delete m_brushTool;
 	delete m_lineTool;
 }
