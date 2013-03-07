@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CDreamSettings</class>
+ <widget class="QDialog" name="CDreamSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>482</width>
+    <height>479</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dream Settings</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetFixedSize</enum>
+   </property>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="generalTab">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QGroupBox" name="dreamNameGroupBox">
+         <property name="title">
+          <string>Dream Name:</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QLineEdit" name="dreamName"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="dreamNameDescription">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This name will be displayed:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Under your character name on the portal when you upload your dream&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;As part of your Dream URL&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="scaledContents">
+             <bool>false</bool>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="dreamStandardGroupBox">
+         <property name="title">
+          <string>Dream Standard</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QComboBox" name="dreamStandard"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="dreamStandardDescription">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pick a Standard that matches the content of your dream. Not sure what to use? Check out the official information: &lt;a href=&quot;http://www.furcadia.com/standards/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.furcadia.com/standards/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupPackageGroupBox">
+         <property name="title">
+          <string>Dream/Group Package Benefits</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QCheckBox" name="allowLargeDreams">
+            <property name="text">
+             <string>Allow large dream sizes</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="groupPackageDescription">
+            <property name="text">
+             <string>Dreams larger than 208x200 or with more than 7,999 lines of DragonSpeak require a Dream or Group Package from the Digo Market on the uploading character. If you don't have one, your dream will automatically go into &quot;Test Mode&quot; and will close after 15 minutes.</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="patchTab">
+      <attribute name="title">
+       <string>Patches</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="9" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="6" column="0">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Maximum</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>16</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QRadioButton" name="noPatches">
+         <property name="text">
+          <string>No custom patches, I'll stick with the defaults</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">patchTypeButtonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="3">
+        <widget class="QRadioButton" name="customPatches">
+         <property name="text">
+          <string>Use custom patches from a folder</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">patchTypeButtonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="3">
+        <widget class="QRadioButton" name="publicPatch">
+         <property name="text">
+          <string>Use a public patch from the Furcadia server</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">patchTypeButtonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="patchDirEntry">
+         <property name="placeholderText">
+          <string>Path to a folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QPushButton" name="patchDirBrowse">
+         <property name="text">
+          <string>Browse...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QLineEdit" name="publicPatchEntry">
+         <property name="placeholderText">
+          <string>(you probably don't need to use this mode)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="3">
+        <widget class="QCheckBox" name="encryptDream">
+         <property name="text">
+          <string>Encrypt the dream when uploaded</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" colspan="2">
+        <widget class="QLabel" name="encryptDescription">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This will stop other players from being able to view your map, DragonSpeak and patches. (Music, sounds and skin backgrounds are not encrypted.)&lt;/p&gt;&lt;p&gt;This will slow down uploading and downloading of your dream.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="optionsTab">
+      <attribute name="title">
+       <string>Options</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QCheckBox" name="allowJoinAndSummon">
+         <property name="text">
+          <string>Allow joining and summoning within this dream</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="allowLeadAndFollow">
+         <property name="text">
+          <string>Allow leading and following</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="allowURLEntry">
+         <property name="text">
+          <string>Allow entry through Dream URLs</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="useParentalControls">
+         <property name="text">
+          <string>Enforce parental controls (18+ Warning upon entry)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="allowShouting">
+         <property name="text">
+          <string>Allow shouting</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="showNamesOnTab">
+         <property name="text">
+          <string>Show character names when Tab is pressed</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="showPlayerList">
+         <property name="text">
+          <string>Show the list of players in the dream (F4, Ctrl+W, `who)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="allowSeasonals">
+         <property name="text">
+          <string>Allow players to use Seasonal avatars</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="forbidSittingOnTheFloor">
+         <property name="text">
+          <string>Forbid sitting when not on a &quot;sittable&quot; item (pillow, chair, ...)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="useSwearFilter">
+         <property name="text">
+          <string>Enable the swear/curse filter</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>CDreamSettings</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>CDreamSettings</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <buttongroups>
+  <buttongroup name="patchTypeButtonGroup"/>
+ </buttongroups>
+</ui>

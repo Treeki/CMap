@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     utility.cpp \
     cshapeindexer.cpp \
     cshapeitemdelegate.cpp \
-    clinetool.cpp
+    clinetool.cpp \
+    cdreamsettings.cpp
 
 HEADERS  += \
     cpatchfile.h \
@@ -55,9 +56,11 @@ HEADERS  += \
     utility.h \
     cshapeindexer.h \
     cshapeitemdelegate.h \
-    clinetool.h
+    clinetool.h \
+    cdreamsettings.h
 
-FORMS    +=
+FORMS    += \
+    cdreamsettings.ui
 
 RESOURCES += \
     resources.qrc

@@ -2,6 +2,7 @@
 
 #include "cedittoolbox.h"
 #include "cmapwidget.h"
+#include "cdreamsettings.h"
 #include <QUndoView>
 #include <QDockWidget>
 #include <QScrollArea>
@@ -85,6 +86,10 @@ void CEditorWindow::setupActions() {
 	connect(m_zoomInAction, SIGNAL(triggered()), SLOT(zoomIn()));
 	connect(m_zoomActualAction, SIGNAL(triggered()), SLOT(zoomActual()));
 	connect(m_zoomOutAction, SIGNAL(triggered()), SLOT(zoomOut()));
+
+	// Dream stuff
+	m_dreamSettingsAction = new QAction("Dream Settings", this);
+	connect(m_dreamSettingsAction, SIGNAL(triggered()), SLOT(showDreamSettings()));
 }
 
 void CEditorWindow::setupMenubar() {
@@ -106,6 +111,8 @@ void CEditorWindow::setupMenubar() {
 	m = menuBar()->addMenu("&Edit");
 	m->addAction(m_undoAction);
 	m->addAction(m_redoAction);
+	m->addSeparator();
+	m->addAction(m_dreamSettingsAction);
 
 	m = menuBar()->addMenu("&View");
 	m->addAction(m_zoomInAction);
@@ -359,6 +366,17 @@ void CEditorWindow::showAboutBox() {
 					   "\n"
 					   "Source code and more information available here:\n"
 					   "http://github.com/Treeki/CMap");
+}
+
+
+void CEditorWindow::showDreamSettings() {
+	CDreamSettings *ds = new CDreamSettings(m_map, this);
+	if (ds->exec() == QDialog::Accepted) {
+		ds->saveToMap();
+		if (ds->anythingChanged())
+			m_map->undo.makeUnfixablyDirty();
+	}
+	ds->deleteLater();
 }
 
 

@@ -55,6 +55,7 @@ it up and make it work with whatever gets added to Furcadia later on.
 - Map widget that displays and edits a map, with scrolling and zooming in/out
 - Undo/Redo with multiple levels
 - Loading of FOX and FSH/FBJ files
+- Dream Settings dialog (still needs to allow patch reloading)
 
 
 # Planned/To do:
@@ -84,8 +85,7 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 ## Brush Tool:
 
-- Picking of items below the cursor (Could be added to CCommandToolBase?)
-- Larger brushes
+- Larger brushes; checkerboard brush with two parity options
 
 ## Line Tool:
 
@@ -95,16 +95,19 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 ## Other Editing Features:
 
-- Tools: Selection, flood fill, line, rectangle/diamond, ...
+- Tools: Selection, flood fill, rectangle/diamond, ...
 - Copy/paste
 - "Clips" feature, similar to Dreamer Reloaded
 
 ## Minor (Short term) Things:
 
-- Dream Settings (this is pretty important...!)
+- Reload Patch
 - "Open Recent" (MRU list)
-- About dialog
+- Better About dialog
 - Make Open/Save dialogs remember their last directory
+- Save the workspace (window and docked panel positions/sizes) into QSettings
+- Status bar showing hovered position, item, floor, wall, region, effect, ...
+- Ctrl+Click to copy hovered position
 
 Of course, I'm sure there's lots of stuff I've missed. I'd like to release an
 initial Alpha pretty soon - perhaps once I get it to feature parity with the

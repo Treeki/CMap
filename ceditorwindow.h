@@ -12,6 +12,7 @@ class QScrollArea;
 class QAction;
 class CEditableMap;
 class CPatchContext;
+class CDreamSettings;
 
 class CEditorWindow : public QMainWindow {
 	Q_OBJECT
@@ -36,6 +37,7 @@ public slots:
 	void zoomActual();
 
 	void showAboutBox();
+	void showDreamSettings();
 
 private:
 	void setupActions();
@@ -72,6 +74,8 @@ protected:
 
 	QAction *m_undoAction;
 	QAction *m_redoAction;
+
+	QAction *m_dreamSettingsAction;
 
 	QAction *m_zoomInAction;
 	QAction *m_zoomOutAction;
