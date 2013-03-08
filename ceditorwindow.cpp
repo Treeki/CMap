@@ -268,8 +268,7 @@ void CEditorWindow::loadMap(QString mapPath) {
 
 
 void CEditorWindow::loadPatches() {
-	if (m_patchContext)
-		m_patchContext->deleteLater();
+	auto oldPatchContext = m_patchContext;
 
 	m_patchContext = new CPatchContext(this);
 
@@ -279,6 +278,9 @@ void CEditorWindow::loadPatches() {
 	// TODO: make this not destroy everything in the toolbox when
 	// just reloading the patch
 	m_toolbox->setup(m_mapWidget);
+
+	if (oldPatchContext)
+		oldPatchContext->deleteLater();
 }
 
 

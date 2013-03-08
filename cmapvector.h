@@ -29,7 +29,7 @@ public:
 		int oldWidth = m_width, oldHeight = m_height;
 
 		// If it's zero, just nuke it all
-		newWidth = (newHeight == 0) ? 0 : qMax(newWidth, TColumns);
+		newWidth = (newHeight == 0) ? 0 : qMin(newWidth, TColumns);
 
 		// If there's any columns we don't need, nuke them
 		if (oldWidth > newWidth) {
@@ -82,11 +82,11 @@ public:
 	}
 
 
-	inline TValue get(CMapPoint point) const {
+	inline TValue get(const CMapPoint &point) const {
 		return m_columns[point.x / (TIsMultiplied ? 2 : 1)][point.y];
 	}
 
-	inline void set(CMapPoint point, TValue value) {
+	inline void set(const CMapPoint &point, TValue value) {
 		m_columns[point.x / (TIsMultiplied ? 2 : 1)][point.y] = value;
 	}
 };

@@ -51,7 +51,8 @@ void CShapePicker::setup(CShapeIndexer *indexer) {
 
 	m_typeSpinBox->setRange(0, indexer->pool()->max() - 1);
 
-	setSelectedShape(0);
+	m_selectedShape = (m_objectType == CMap::Floor) ? 0 : 1;
+	setSelectedShape(m_selectedShape);
 
 	connect(m_view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(handleRowChanged(QModelIndex,QModelIndex)));
 }
