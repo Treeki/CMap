@@ -52,6 +52,7 @@ private:
 	void setMapPath(QString mapPath);
 
 private slots:
+	void openMRUFile();
 	void handleCleanChanged(bool clean);
 
 protected slots:
@@ -82,6 +83,7 @@ protected:
 	QAction *m_zoomActualAction;
 
 	static const int MruCount = 8;
+	QAction *m_nullMruAction;
 	QAction *m_mruActions[MruCount];
 
 	QUndoGroup m_undo;

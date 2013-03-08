@@ -108,6 +108,8 @@ it up and make it work with whatever gets added to Furcadia later on.
 - Save the workspace (window and docked panel positions/sizes) into QSettings
 - Status bar showing hovered position, item, floor, wall, region, effect, ...
 - Ctrl+Click to copy hovered position
+- Unobstrusive way to show errors: failed patch loads (non-existent dir etc),
+  invalid object IDs that could cause issues when the dream is uploaded, ...
 
 Of course, I'm sure there's lots of stuff I've missed. I'd like to release an
 initial Alpha pretty soon - perhaps once I get it to feature parity with the

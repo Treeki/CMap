@@ -13,6 +13,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QKeySequence>
+#include <QSettings>
 
 CEditorWindow::CEditorWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -68,9 +69,12 @@ void CEditorWindow::setupActions() {
 	connect(m_saveAsAction, SIGNAL(triggered()), SLOT(saveAs()));
 
 	// MRU
+	m_nullMruAction = new QAction("(None)", this);
+	m_nullMruAction->setEnabled(false);
 	for (int i = 0; i < MruCount; i++) {
 		m_mruActions[i] = new QAction(this);
 		m_mruActions[i]->setVisible(false);
+		connect(m_mruActions[i], SIGNAL(triggered()), SLOT(openMRUFile()));
 	}
 
 	// Undo/redo
@@ -100,6 +104,7 @@ void CEditorWindow::setupMenubar() {
 	m->addAction(m_openAction);
 
 	QMenu *mruMenu = m->addMenu("Open &Recent");
+	mruMenu->addAction(m_nullMruAction);
 	for (int i = 0; i < MruCount; i++)
 		mruMenu->addAction(m_mruActions[i]);
 
@@ -144,12 +149,49 @@ void CEditorWindow::setupToolbar() {
 
 
 void CEditorWindow::updateMRU() {
+	QSettings settings;
+	QStringList mru = settings.value("recentFiles").toStringList();
 
+	for (int i = 0; i < MruCount; i++) {
+		if (i < mru.count()) {
+			// TODO: trim down displayed names...?
+			m_mruActions[i]->setText(mru.at(i));
+			m_mruActions[i]->setData(mru.at(i));
+			m_mruActions[i]->setVisible(true);
+		} else
+			m_mruActions[i]->setVisible(false);
+	}
+
+	m_nullMruAction->setVisible(mru.isEmpty());
 }
 
 
 void CEditorWindow::addToMRU(QString path) {
+	QSettings settings;
+	QStringList mru = settings.value("recentFiles").toStringList();
+
+	int whereNow = mru.indexOf(path);
+	if (whereNow == 0) {
+		// already got this one, do nothing
+		return;
+	} else if (whereNow > 0) {
+		// this one is already in the list, so we're moving it to the top
+		mru.removeAt(whereNow);
+	}
+
+	mru.insert(0, path);
+	while (mru.count() > MruCount)
+		mru.removeLast();
+
+	settings.setValue("recentFiles", mru);
 	updateMRU();
+}
+
+
+void CEditorWindow::openMRUFile() {
+	auto action = qobject_cast<QAction *>(sender());
+	if (action)
+		loadMap(action->data().toString());
 }
 
 
@@ -160,15 +202,13 @@ void CEditorWindow::setMapPath(QString mapPath) {
 	m_mapDir = mapFI.canonicalPath();
 	m_mapFilename = mapFI.fileName();
 	m_mapPath = mapPath;
+
+	addToMRU(mapPath);
 }
 
 
 void CEditorWindow::loadMap(QString mapPath) {
-	// if we have a map, nuke it to orbit
-	if (m_map)
-		delete m_map;
-
-	m_map = new CEditableMap(this);
+	auto newMap = new CEditableMap(this);
 
 	if (mapPath.isNull()) {
 		m_mapIsSaved = false;
@@ -178,8 +218,17 @@ void CEditorWindow::loadMap(QString mapPath) {
 	} else {
 		setMapPath(mapPath);
 
-		m_map->load(mapPath);
+		if (!newMap->load(mapPath)) {
+			QMessageBox::warning(this, "Sorry",
+								 "Something went wrong while loading this map :(");
+			delete newMap;
+			return;
+		}
 	}
+
+	if (m_map)
+		delete m_map;
+	m_map = newMap;
 
 	// The undo system is an absolute mess.
 	// Don't use the UndoGroup's cleanChanged signal
