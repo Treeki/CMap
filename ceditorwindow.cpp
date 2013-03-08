@@ -28,11 +28,28 @@ CEditorWindow::CEditorWindow(QWidget *parent) :
 	setCentralWidget(m_mapScrollArea);
 
 
+	// Create main toolbar
+	m_toolbar = addToolBar("Editor");
+	m_toolbar->setObjectName("EditorToolbar");
+	m_toolbar->setIconSize(QSize(16, 16));
+
+	// Create toolbox
 	m_toolbox = new CEditToolbox(this);
 
 	m_toolboxDock = new QDockWidget("Tools", this);
+	m_toolboxDock->setObjectName("ToolboxDock");
 	m_toolboxDock->setWidget(m_toolbox);
 	addDockWidget(Qt::LeftDockWidgetArea, m_toolboxDock);
+
+	// Create History panel
+	m_undoView = new QUndoView(&m_undo, this);
+	m_undoView->setCleanIcon(QIcon(":/icons/save-small.png"));
+
+	m_undoDock = new QDockWidget("History", this);
+	m_undoDock->setObjectName("UndoDock");
+	m_undoDock->setWidget(m_undoView);
+	addDockWidget(Qt::LeftDockWidgetArea, m_undoDock);
+
 
 	setupActions();
 	setupMenubar();
@@ -40,15 +57,16 @@ CEditorWindow::CEditorWindow(QWidget *parent) :
 
 	updateMRU();
 
-	m_undoView = new QUndoView(&m_undo, this);
-	m_undoView->setCleanIcon(QIcon(":/icons/save-small.png"));
-
-	m_undoDock = new QDockWidget("History", this);
-	m_undoDock->setWidget(m_undoView);
-	addDockWidget(Qt::LeftDockWidgetArea, m_undoDock);
-
 	setupZoom();
 
+	// Restore our state if we've got one
+	QSettings settings;
+	if (settings.contains("editorWindowGeometry")) {
+		restoreGeometry(settings.value("editorWindowGeometry").toByteArray());
+		restoreState(settings.value("editorWindowState").toByteArray());
+	}
+
+	// And there we go!
 	loadMap();
 	//loadMap("/home/me/Furcadia/Dreams/CH_G3/G3.map");
 	//loadMap("/home/me/WINE/Program Files/Furcadia/maps/therio.map");
@@ -123,15 +141,18 @@ void CEditorWindow::setupMenubar() {
 	m->addAction(m_zoomInAction);
 	m->addAction(m_zoomOutAction);
 	m->addAction(m_zoomActualAction);
+	m->addSeparator();
+
+	auto tbMenu = m->addMenu("&Toolbars");
+	tbMenu->addAction(m_toolbar->toggleViewAction());
+	m->addAction(m_toolboxDock->toggleViewAction());
+	m->addAction(m_undoDock->toggleViewAction());
 
 	m = menuBar()->addMenu("&Help");
 	m->addAction("&About CMap", this, SLOT(showAboutBox()));
 }
 
 void CEditorWindow::setupToolbar() {
-	m_toolbar = addToolBar("Editor");
-	m_toolbar->setIconSize(QSize(16, 16));
-
 	m_toolbar->addAction(m_newAction);
 	m_toolbar->addAction(m_openAction);
 	m_toolbar->addAction(m_saveAction);
@@ -298,6 +319,11 @@ void CEditorWindow::closeEvent(QCloseEvent *event) {
 		event->ignore();
 	} else {
 		// OK
+		// Save our stuff first, though
+		QSettings settings;
+		settings.setValue("editorWindowGeometry", saveGeometry());
+		settings.setValue("editorWindowState", saveState());
+
 		event->accept();
 	}
 }

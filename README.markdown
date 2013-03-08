@@ -102,10 +102,8 @@ it up and make it work with whatever gets added to Furcadia later on.
 ## Minor (Short term) Things:
 
 - Reload Patch
-- "Open Recent" (MRU list)
 - Better About dialog
 - Make Open/Save dialogs remember their last directory
-- Save the workspace (window and docked panel positions/sizes) into QSettings
 - Status bar showing hovered position, item, floor, wall, region, effect, ...
 - Ctrl+Click to copy hovered position
 - Unobstrusive way to show errors: failed patch loads (non-existent dir etc),
