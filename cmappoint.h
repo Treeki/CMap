@@ -16,9 +16,9 @@ enum OrdinalDirection {
 };
 
 struct CMapPoint {
-	quint16 x, y;
+	qint16 x, y;
 
-	CMapPoint() { x = 0xFFFF; y = 0xFFFF; }
+	CMapPoint() { x = -30000; y = -30000; }
 	CMapPoint(int _x, int _y) { x = _x; y = _y; }
 
 	bool operator==(CMapPoint &other) const {
@@ -54,12 +54,12 @@ struct CMapPoint {
 	}
 
 	void makeInvalid() {
-		x = 0xFFFF;
-		y = 0xFFFF;
+		x = -30000;
+		y = -30000;
 	}
 
 	bool isValid() const {
-		return (x < 0xFFFE);
+		return (x > -30000);
 	}
 
 	bool intersectsLine(int withX, int withY, int multiplier) const {
@@ -137,7 +137,7 @@ struct CLine {
 			break;
 
 		case VERTICAL:
-			for (iter = start; iter.y <= end.y; iter.y++)
+			for (iter = start; iter.y <= (end.y + 1); iter.y += 2)
 				func(iter);
 
 			break;
@@ -167,7 +167,7 @@ struct CLine {
 		case INVALID_LINE_ANGLE:
 			return 0;
 		case VERTICAL:
-			return (end.y - start.y) + 1;
+			return ((end.y - start.y) + 1) / 2; // not 100% checked, fyi
 		case HORIZONTAL:
 			return ((end.x - start.x) / 2) + 1;
 		case NW_SE:
@@ -183,7 +183,7 @@ struct CLine {
 		case INVALID_LINE_ANGLE:
 			return false;
 		case VERTICAL:
-			return (x == start.x) && (y >= start.y) && (y <= end.y);
+			return (x == start.x) && (y >= start.y) && (y <= end.y) && ((y & 1) == (start.y & 1));
 		case HORIZONTAL:
 			return (y == start.y) && (x >= start.x) && (x <= end.x);
 		case NW_SE:

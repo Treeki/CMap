@@ -35,7 +35,7 @@ public:
 	static int randomisedFloor(int x, int y, int shapeNum);
 
 	bool positionValid(const CMapPoint &pos) const {
-		return (pos.x < (m_width * 2) && pos.y < m_height);
+		return (pos.x >= 0) && (pos.y >= 0) && (pos.x < (m_width * 2) && pos.y < m_height);
 	}
 
 	static inline int positionKey(int x, int y) {

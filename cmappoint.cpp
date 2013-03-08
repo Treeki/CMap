@@ -53,40 +53,44 @@ void CLine::snapToPoints(const CMapPoint &anchor, const CMapPoint &other) {
 	else
 		direction = (OrdinalDirection)(8 + rawDirection);
 
-	int length = std::floor(std::sqrt((xDiff*xDiff) + (yDiff*yDiff)));
+	int cartLength = std::floor(std::sqrt((xDiff*xDiff) + (yDiff*yDiff)));
+
+	int isoXDiff = (anchor.x - other.x) / 2;
+	int isoYDiff = (anchor.y - other.y) / 2;
+	int isoLength = std::floor(std::sqrt((isoXDiff*isoXDiff) + (isoYDiff*isoYDiff)));
 
 	CMapPoint endPoint = anchor;
 
 	switch (direction) {
 	// Simple isometric directions
 	case NORTH_WEST:
-		for (int i = 0; i < length; i++)
+		for (int i = 0; i < cartLength; i++)
 			endPoint.moveNW();
 		break;
 	case NORTH_EAST:
-		for (int i = 0; i < length; i++)
+		for (int i = 0; i < cartLength; i++)
 			endPoint.moveNE();
 		break;
 	case SOUTH_EAST:
-		for (int i = 0; i < length; i++)
+		for (int i = 0; i < cartLength; i++)
 			endPoint.moveSE();
 		break;
 	case SOUTH_WEST:
-		for (int i = 0; i < length; i++)
+		for (int i = 0; i < cartLength; i++)
 			endPoint.moveSW();
 		break;
 	// Cardinal directions
 	case WEST:
-		endPoint.x -= (length * 2);
+		endPoint.x -= (isoLength * 2);
 		break;
 	case EAST:
-		endPoint.x += (length * 2);
+		endPoint.x += (isoLength * 2);
 		break;
 	case NORTH:
-		endPoint.y -= length;
+		endPoint.y -= (isoLength * 2);
 		break;
 	case SOUTH:
-		endPoint.y += length;
+		endPoint.y += (isoLength * 2);
 		break;
 	}
 

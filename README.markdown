@@ -89,7 +89,7 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 ## Line Tool:
 
-- Fix the line length for cardinal directions
+- Support walls properly
 
 ## Other Editing Features:
 
