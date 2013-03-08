@@ -89,9 +89,7 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 ## Line Tool:
 
-- Sanity check so you can't paint outside the map and crash the editor
 - Fix the line length for cardinal directions
-- Nicer undo command messages
 
 ## Other Editing Features:
 
@@ -105,7 +103,7 @@ it up and make it work with whatever gets added to Furcadia later on.
 - Better About dialog
 - Make Open/Save dialogs remember their last directory
 - Ctrl+Click to copy hovered position
-- Unobstrusive way to show errors: failed patch loads (non-existent dir etc),
+- Unobtrusive way to show errors: failed patch loads (non-existent dir etc),
   invalid object IDs that could cause issues when the dream is uploaded, ...
 
 Of course, I'm sure there's lots of stuff I've missed. I'd like to release an

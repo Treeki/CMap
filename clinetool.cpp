@@ -37,7 +37,8 @@ void CLineTool::setWhat(CMap::ObjectType type, int value) {
 
 void CLineTool::updateLineOnWidget(CLine &line) {
 	line.forEach([this](const CMapPoint &point) {
-		widget()->updateTile(point, (CEditableMap::UpdateType)m_whatType);
+		if (widget()->map()->positionValid(point))
+			widget()->updateTile(point, (CEditableMap::UpdateType)m_whatType);
 	});
 }
 
@@ -69,8 +70,11 @@ void CLineTool::hoverStatusChanged(bool fromValid, const CMapPoint &from, bool t
 			newLine.snapToPoints(m_dragBegin, realTo);
 			if (!(m_line == newLine)) {
 				updateLineOnWidget(m_line);
+				updateLineOnWidget(newLine);
+				CLine oldLine = m_line;
 				m_line = newLine;
-				updateLineOnWidget(m_line);
+				updateLineOnWidget(oldLine);
+				updateLineOnWidget(newLine);
 			}
 		}
 	}
@@ -110,17 +114,39 @@ void CLineTool::finaliseCommand() {
 		m_command->changes.reserve(m_line.size());
 
 		m_line.forEach([this](const CMapPoint &point) {
-			CEditCommand::Change chg;
+			if (widget()->map()->positionValid(point)) {
+				CEditCommand::Change chg;
 
-			chg.pos = point;
-			chg.before = widget()->map()->get(m_whatType, point);
-			chg.after = m_whatValue;
-			chg.type = m_whatType;
+				chg.pos = point;
+				chg.before = widget()->map()->get(m_whatType, point);
+				chg.after = m_whatValue;
+				chg.type = m_whatType;
 
-			m_command->changes.append(chg);
+				m_command->changes.append(chg);
+			}
 		});
 
-		m_command->setText("placed a line");
+		int amount = m_command->changes.count();
+
+		bool isPlacement = !((m_whatType != CMap::Floor) && m_whatValue == 0);
+
+		QString text;
+		const char *typeName = CMap::nameForObjectType(m_whatType);
+
+		if (amount > 1) {
+			text = QStringLiteral("%1 line: %2 %3s")
+					.arg(isPlacement ? "place" : "delete")
+					.arg(amount).arg(typeName);
+		} else {
+			text = QStringLiteral("%1 one %2")
+					.arg(isPlacement ? "place" : "delete")
+					.arg(typeName);
+		}
+
+		if (isPlacement)
+			text.append(QStringLiteral(" of type %1").arg(m_whatValue));
+
+		m_command->setText(text);
 	}
 
 	m_line.makeInvalid();
