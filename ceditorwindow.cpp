@@ -16,6 +16,7 @@
 #include <QKeySequence>
 #include <QSettings>
 #include <QStatusBar>
+#include <QElapsedTimer>
 
 CEditorWindow::CEditorWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -114,7 +115,10 @@ void CEditorWindow::setupActions() {
 
 	// Dream stuff
 	m_dreamSettingsAction = new QAction("Dream Settings", this);
+	m_reloadPatchAction = new QAction(QIcon(":/icons/reload.png"), "Reload Patches", this);
+
 	connect(m_dreamSettingsAction, SIGNAL(triggered()), SLOT(showDreamSettings()));
+	connect(m_reloadPatchAction, SIGNAL(triggered()), SLOT(reloadPatches()));
 }
 
 void CEditorWindow::setupMenubar() {
@@ -139,6 +143,7 @@ void CEditorWindow::setupMenubar() {
 	m->addAction(m_redoAction);
 	m->addSeparator();
 	m->addAction(m_dreamSettingsAction);
+	m->addAction(m_reloadPatchAction);
 
 	m = menuBar()->addMenu("&View");
 	m->addAction(m_zoomInAction);
@@ -169,6 +174,9 @@ void CEditorWindow::setupToolbar() {
 	m_toolbar->addAction(m_zoomActualAction);
 	// possible: combobox for zooming with QWidgetAction?
 	m_toolbar->addAction(m_zoomOutAction);
+	m_toolbar->addSeparator();
+
+	m_toolbar->addAction(m_reloadPatchAction);
 }
 
 
@@ -232,6 +240,9 @@ void CEditorWindow::setMapPath(QString mapPath) {
 
 
 void CEditorWindow::loadMap(QString mapPath) {
+	QElapsedTimer timer;
+	timer.start();
+
 	auto newMap = new CEditableMap(this);
 
 	if (mapPath.isNull()) {
@@ -264,13 +275,16 @@ void CEditorWindow::loadMap(QString mapPath) {
 	connect(&m_map->undo, SIGNAL(cleanChanged(bool)), SLOT(handleCleanChanged(bool)));
 
 	m_mapWidget->setMap(m_map);
-	loadPatches(); // sets up the edit toolbox too
+	loadPatches(true); // sets up the edit toolbox too
 
 	handleCleanChanged(true); // updates title bar too
+
+	statusBar()->showMessage(QStringLiteral("Map and patches loaded (%1 ms)")
+				.arg(timer.elapsed()), 2000);
 }
 
 
-void CEditorWindow::loadPatches() {
+void CEditorWindow::loadPatches(bool forNewMap) {
 	auto oldPatchContext = m_patchContext;
 
 	m_patchContext = new CPatchContext(this);
@@ -278,9 +292,11 @@ void CEditorWindow::loadPatches() {
 	m_map->loadPatchContext(m_patchContext, CPatchFile::getDefaultPatchPath(), m_mapDir);
 
 	m_mapWidget->setPatches(m_patchContext);
-	// TODO: make this not destroy everything in the toolbox when
-	// just reloading the patch
-	m_toolbox->setup(m_mapWidget);
+
+	if (forNewMap)
+		m_toolbox->setup(m_mapWidget);
+	else
+		m_toolbox->reloadPatches();
 
 	if (oldPatchContext)
 		oldPatchContext->deleteLater();
@@ -457,8 +473,20 @@ void CEditorWindow::showDreamSettings() {
 		ds->saveToMap();
 		if (ds->anythingChanged())
 			m_map->undo.makeUnfixablyDirty();
+
+		if (ds->patchSettingsChanged())
+			reloadPatches();
 	}
 	ds->deleteLater();
+}
+
+
+void CEditorWindow::reloadPatches() {
+	QElapsedTimer timer;
+	timer.start();
+	loadPatches(false);
+	statusBar()->showMessage(QStringLiteral("Reloaded patches (%1 ms)")
+							 .arg(timer.elapsed()), 2000);
 }
 
 

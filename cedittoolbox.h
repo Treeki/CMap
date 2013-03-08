@@ -20,6 +20,7 @@ public:
 	~CEditToolbox();
 
 	void setup(CMapWidget *mw);
+	void reloadPatches();
 	void cleanup();
 
 private:

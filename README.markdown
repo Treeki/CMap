@@ -99,7 +99,6 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 ## Minor (Short term) Things:
 
-- Reload Patch
 - Better About dialog
 - Make Open/Save dialogs remember their last directory
 - Ctrl+Click to copy hovered position

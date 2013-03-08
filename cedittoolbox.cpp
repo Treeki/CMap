@@ -75,7 +75,7 @@ void CEditToolbox::setup(CMapWidget *mw) {
 
 	m_mapWidget = mw;
 
-	m_objectPicker->setup(mw->patches());
+	reloadPatches();
 
 	m_brushTool = new CBrushTool(this);
 	m_brushTool->setMapWidget(mw);
@@ -92,6 +92,11 @@ void CEditToolbox::setup(CMapWidget *mw) {
 
 	connect(m_brushTool, SIGNAL(shapePicked(int)), m_objectPicker, SLOT(setSelectedShape(int)));
 	connect(m_lineTool, SIGNAL(shapePicked(int)), m_objectPicker, SLOT(setSelectedShape(int)));
+}
+
+
+void CEditToolbox::reloadPatches() {
+	m_objectPicker->setup(m_mapWidget->patches());
 }
 
 

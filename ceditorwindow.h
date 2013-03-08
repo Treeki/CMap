@@ -39,6 +39,8 @@ public slots:
 	void showAboutBox();
 	void showDreamSettings();
 
+	void reloadPatches();
+
 private:
 	void setupActions();
 	void setupMenubar();
@@ -47,7 +49,7 @@ private:
 	void updateMRU();
 	void addToMRU(QString path);
 
-	void loadPatches();
+	void loadPatches(bool forNewMap = true);
 
 	void setMapPath(QString mapPath);
 
@@ -77,6 +79,7 @@ protected:
 	QAction *m_redoAction;
 
 	QAction *m_dreamSettingsAction;
+	QAction *m_reloadPatchAction;
 
 	QAction *m_zoomInAction;
 	QAction *m_zoomOutAction;
