@@ -104,7 +104,6 @@ it up and make it work with whatever gets added to Furcadia later on.
 - Reload Patch
 - Better About dialog
 - Make Open/Save dialogs remember their last directory
-- Status bar showing hovered position, item, floor, wall, region, effect, ...
 - Ctrl+Click to copy hovered position
 - Unobstrusive way to show errors: failed patch loads (non-existent dir etc),
   invalid object IDs that could cause issues when the dream is uploaded, ...

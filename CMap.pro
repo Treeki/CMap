@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     cshapeindexer.cpp \
     cshapeitemdelegate.cpp \
     clinetool.cpp \
-    cdreamsettings.cpp
+    cdreamsettings.cpp \
+    ceditorstatusbar.cpp
 
 HEADERS  += \
     cpatchfile.h \
@@ -57,7 +58,8 @@ HEADERS  += \
     cshapeindexer.h \
     cshapeitemdelegate.h \
     clinetool.h \
-    cdreamsettings.h
+    cdreamsettings.h \
+    ceditorstatusbar.h
 
 FORMS    += \
     cdreamsettings.ui

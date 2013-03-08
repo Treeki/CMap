@@ -3,6 +3,7 @@
 #include "cedittoolbox.h"
 #include "cmapwidget.h"
 #include "cdreamsettings.h"
+#include "ceditorstatusbar.h"
 #include <QUndoView>
 #include <QDockWidget>
 #include <QScrollArea>
@@ -14,6 +15,7 @@
 #include <QFileDialog>
 #include <QKeySequence>
 #include <QSettings>
+#include <QStatusBar>
 
 CEditorWindow::CEditorWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -27,6 +29,7 @@ CEditorWindow::CEditorWindow(QWidget *parent) :
 	m_mapScrollArea->setWidget(m_mapWidget);
 	setCentralWidget(m_mapScrollArea);
 
+	setStatusBar(new CEditorStatusBar(m_mapWidget));
 
 	// Create main toolbar
 	m_toolbar = addToolBar("Editor");
@@ -393,6 +396,8 @@ void CEditorWindow::save(bool forceNewFilename) {
 	m_map->revision++;
 	m_map->save(m_mapPath);
 	m_map->undo.setClean();
+
+	statusBar()->showMessage("Map saved.", 1500);
 }
 
 void CEditorWindow::saveAs() {

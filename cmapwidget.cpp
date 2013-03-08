@@ -390,6 +390,7 @@ void CMapWidget::mouseMoveEvent(QMouseEvent *event) {
 		bool newFlag = m_map->positionValid(newHover);
 
 		// before we clobber "hovered", call the tool's hoverstatus
+		emit hoverStatusChanged(isHovering, hovered, newFlag, newHover, event);
 		m_currentTool->hoverStatusChanged(isHovering, hovered, newFlag, newHover, event);
 
 		// now update + write the new position's info
@@ -473,6 +474,7 @@ void CMapWidget::leaveEvent(QEvent *) {
 
 	CMapPoint nullp;
 
+	emit hoverStatusChanged(isHovering, hovered, false, nullp, 0);
 	m_currentTool->hoverStatusChanged(isHovering, hovered, false, nullp, 0);
 
 	isHovering = false;

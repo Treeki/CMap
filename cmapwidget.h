@@ -88,7 +88,11 @@ protected:
 	void leaveEvent(QEvent *);
 
 signals:
-	
+	void hoverStatusChanged(
+			bool fromValid, const CMapPoint &from,
+			bool toValid, const CMapPoint &to,
+			QMouseEvent *event);
+
 public slots:
 	
 };
