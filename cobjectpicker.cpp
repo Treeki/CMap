@@ -12,7 +12,7 @@ CObjectPicker::CObjectPicker(QWidget *parent) : QWidget(parent) {
 	m_pickers[4] = new CShapePicker(CMap::Effect, this);
 
 	m_tabs = new QTabWidget(this);
-	//m_tabs->setDocumentMode(true);
+	m_tabs->setDocumentMode(true);
 
 	m_tabs->addTab(m_pickers[0], QIcon(":/icons/item.png"), "");
 	m_tabs->addTab(m_pickers[1], QIcon(":/icons/floor.png"), "");

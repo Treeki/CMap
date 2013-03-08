@@ -26,6 +26,7 @@ CEditToolbox::CEditToolbox(QWidget *parent) :
 
 	m_objectPicker = new CObjectPicker(this);
 
+	layout->setContentsMargins(2, 0, 2, 0);
 	layout->addWidget(m_toolbar);
 	layout->addWidget(m_objectPicker, 1);
 
