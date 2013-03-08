@@ -11,9 +11,10 @@ CEditToolbox::CEditToolbox(QWidget *parent) :
 
 	// This is not very nice :|
 	m_toolbar = new QToolBar(this);
+	m_toolbar->setIconSize(QSize(16, 16));
 	m_toolActions = new QActionGroup(this);
-	m_brushToolAction = m_toolbar->addAction("Brush");
-	m_lineToolAction = m_toolbar->addAction("Line");
+	m_brushToolAction = m_toolbar->addAction(QIcon(":/icons/brush.png"), "Brush");
+	m_lineToolAction = m_toolbar->addAction(QIcon(":/icons/line.png"), "Line");
 
 	m_toolActions->addAction(m_brushToolAction);
 	m_toolActions->addAction(m_lineToolAction);

@@ -11,6 +11,7 @@ CShapePicker::CShapePicker(CMap::ObjectType objectType, QWidget *parent) :
 	m_model(0), m_indexer(0) {
 
 	QGridLayout *layout = new QGridLayout;
+	layout->setContentsMargins(4, 4, 4, 4);
 
 	m_view = new QListView(this);
 	m_view->setItemDelegate(new CShapeItemDelegate(this));

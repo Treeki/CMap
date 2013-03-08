@@ -12,12 +12,13 @@ CObjectPicker::CObjectPicker(QWidget *parent) : QWidget(parent) {
 	m_pickers[4] = new CShapePicker(CMap::Effect, this);
 
 	m_tabs = new QTabWidget(this);
+	//m_tabs->setDocumentMode(true);
 
-	m_tabs->addTab(m_pickers[0], "Items");
-	m_tabs->addTab(m_pickers[1], "Floors");
-	m_tabs->addTab(m_pickers[2], "Walls");
-	m_tabs->addTab(m_pickers[3], "Regions");
-	m_tabs->addTab(m_pickers[4], "Effects");
+	m_tabs->addTab(m_pickers[0], QIcon(":/icons/item.png"), "");
+	m_tabs->addTab(m_pickers[1], QIcon(":/icons/floor.png"), "");
+	m_tabs->addTab(m_pickers[2], QIcon(":/icons/wall.png"), "");
+	m_tabs->addTab(m_pickers[3], QIcon(":/icons/region.png"), "");
+	m_tabs->addTab(m_pickers[4], QIcon(":/icons/effect.png"), "");
 
 	connect(m_tabs, SIGNAL(currentChanged(int)), SLOT(handleCurrentTabChanged(int)));
 

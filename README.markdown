@@ -125,3 +125,10 @@ on making a great dream editor first.
 Send me a message on GitHub or on the Furcadia forums, or just whisper me
 in-game. I use the username Treeki on all of those.
 
+# Acknowledgements
+
+This app uses the "Fugue" icon set by [Yusuke Kamiyamane][yk], licensed under
+the Creative Commons Attribution 3.0 License.
+
+[yk]: http://p.yusukekamiyamane.com
+
