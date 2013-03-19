@@ -390,28 +390,46 @@ void CEditorWindow::open() {
 	if (verifyMapSaved())
 		return;
 
-	QString filename = QFileDialog::getOpenFileName(
-				this, "Open Map", QString(),
+	QSettings settings;
+
+	auto dlg = new QFileDialog(this, "Open Map", QString(),
 				"Furcadia dreams (*.map);;All files (*.*)");
+	dlg->setFileMode(dlg->AnyFile);
 
-	if (filename.isEmpty())
-		return;
+	if (settings.contains("openDialogState"))
+		dlg->restoreState(settings.value("openDialogState").toByteArray());
 
-	addToMRU(filename);
-	loadMap(filename);
+	if (dlg->exec() == QFileDialog::Accepted) {
+		auto filename = dlg->selectedFiles().first();
+		addToMRU(filename);
+		loadMap(filename);
+	}
+
+	settings.setValue("openDialogState", dlg->saveState());
+
+	dlg->deleteLater();
+
 }
 
 void CEditorWindow::save(bool forceNewFilename) {
 	if (forceNewFilename || !m_mapIsSaved) {
 		// try this
-		QString filename = QFileDialog::getSaveFileName(
-					this, "Save Map", QString(),
+		QSettings settings;
+
+		auto dlg = new QFileDialog(this, "Save Map", QString(),
 					"Furcadia dreams (*.map);;All files (*.*)");
+		dlg->setFileMode(dlg->AnyFile);
 
-		if (filename.isEmpty())
-			return;
+		if (settings.contains("saveDialogState"))
+			dlg->restoreState(settings.value("saveDialogState").toByteArray());
 
-		setMapPath(filename);
+		if (dlg->exec() == QFileDialog::Accepted) {
+			setMapPath(dlg->selectedFiles().first());
+		}
+
+		settings.setValue("saveDialogState", dlg->saveState());
+
+		dlg->deleteLater();
 	}
 
 	m_map->revision++;

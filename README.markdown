@@ -98,7 +98,6 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 - Make the line tool support walls
 - Better About dialog
-- Make Open/Save dialogs remember their last directory
 - Ctrl+Click to copy hovered position
 - Unobtrusive way to show errors: failed patch loads (non-existent dir etc),
   invalid object IDs that could cause issues when the dream is uploaded, ...
