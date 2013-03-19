@@ -96,7 +96,6 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 ## Minor (Short term) Things:
 
-- Make the line tool support walls
 - Better About dialog
 - Ctrl+Click to copy hovered position
 - Unobtrusive way to show errors: failed patch loads (non-existent dir etc),

@@ -25,6 +25,10 @@ struct CMapPoint {
 		return (x == other.x) && (y == other.y);
 	}
 
+	void setRightWall() {
+		x |= 1;
+	}
+
 	void clearRightWall() {
 		x &= ~1;
 	}

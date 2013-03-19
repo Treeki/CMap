@@ -14,13 +14,17 @@ CMap::ObjectType CLineTool::typesToPreview() const {
 }
 
 int CLineTool::whatThingFor(CMap::ObjectType type, int x, int y, int normal) const {
+	// Ensure we have a doubled X, always
+	if (m_whatType != CMap::Wall)
+		x *= 2;
+
 	if (commandActive()) {
-		if (m_line.contains(x * 2, y))
+		if (m_line.contains(x, y))
 			return m_whatValue;
 		else
 			return normal;
 	} else {
-		if (x*2 == m_hovered.x && y == m_hovered.y)
+		if (x == m_hovered.x && y == m_hovered.y)
 			return m_whatValue;
 		else
 			return normal;
@@ -49,8 +53,9 @@ void CLineTool::hoverStatusChanged(bool fromValid, const CMapPoint &from, bool t
 	CMapPoint realFrom = m_hovered;
 	CMapPoint realTo = to;
 
-	// make sure we're always at an even position
-	realTo.x &= ~1;
+	// make sure we're always at an even position.. unless it's a wall
+	if (m_whatType != CMap::Wall)
+		realTo.x &= ~1;
 
 	if (fromValid)
 		widget()->updateTile(realFrom, (CEditableMap::UpdateType)m_whatType);
@@ -68,6 +73,18 @@ void CLineTool::hoverStatusChanged(bool fromValid, const CMapPoint &from, bool t
 			// What's the nearest line we can snap to?
 			CLine newLine;
 			newLine.snapToPoints(m_dragBegin, realTo);
+
+			// take walls into account
+			if (m_whatType == CMap::Wall) {
+				if (newLine.angle == NE_SW) {
+					newLine.start.clearRightWall();
+					newLine.end.clearRightWall();
+				} else if (newLine.angle == NW_SE) {
+					newLine.start.setRightWall();
+					newLine.end.setRightWall();
+				}
+			}
+
 			if (!(m_line == newLine)) {
 				updateLineOnWidget(m_line);
 				updateLineOnWidget(newLine);
@@ -87,7 +104,8 @@ void CLineTool::tileMousePress(const CMapPoint &tile, QMouseEvent *event) {
 	if (commandActive()) {
 		widget()->updateTile(tile, (CEditableMap::UpdateType)m_whatType);
 		m_dragBegin = tile;
-		m_dragBegin.clearRightWall();
+		if (m_whatType != CMap::Wall)
+			m_dragBegin.clearRightWall();
 		m_line.tryAssign(tile, tile);
 		widget()->updateTile(tile, (CEditableMap::UpdateType)m_whatType);
 	}
