@@ -15,6 +15,7 @@ CMapWidget::CMapWidget(QWidget *parent) :
 	mouseMapImage.load(":/graphics/mousemap.png");
 	highlightPixmap.load(":/graphics/highlight.png");
 	highlightTransPixmap.load(":/graphics/highlight_trans.png");
+	walkingBorderPixmap.load(":/graphics/walking_border.png");
 }
 
 
@@ -97,6 +98,25 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 
 			if (regionNum > 0)
 				paintShape(painter, rect, x, y, m_patches->regions, m_patches->regionIndexer.imageNumForShape(regionNum));
+		}
+	}
+
+	// Walking borders
+	if (m_showWalkingBorders) {
+		int borderLeft = 4;
+		int borderRight = m_map->width() - 7;
+		int borderTop = 9;
+		int borderBottom = m_map->height() - 9;
+
+		for (int y = minY; y < maxY; y++) {
+			for (int x = minX; x < maxX; x++) {
+				if (x < borderLeft || x > borderRight || y < borderTop || y > borderBottom) {
+					painter.drawPixmap(
+								screenXForPos(x, y) + 1,
+								screenYForPos(y) + 63,
+								walkingBorderPixmap);
+				}
+			}
 		}
 	}
 
@@ -512,4 +532,13 @@ void CMapWidget::leaveEvent(QEvent *) {
 	isHovering = false;
 	updateTile(hovered, CEditableMap::HighlightUpdate);
 	hovered = nullp;
+}
+
+
+
+void CMapWidget::setWalkingBordersShown(bool value) {
+	if (value == m_showWalkingBorders)
+		return;
+	m_showWalkingBorders = value;
+	update();
 }

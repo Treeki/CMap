@@ -79,7 +79,6 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 ## Map Widget:
 
-- Display of walking borders
 - Display of Furcadia field-of-view
 - Configurable highlight
 - Configurable views (show/hide various layers, set translucency (maybe), etc)

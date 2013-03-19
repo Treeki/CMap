@@ -57,6 +57,7 @@ private:
 private slots:
 	void openMRUFile();
 	void handleCleanChanged(bool clean);
+	void handleWalkingBordersChanged(bool value);
 
 protected slots:
 	void updateTitleBar();
@@ -86,6 +87,8 @@ protected:
 	QAction *m_zoomInAction;
 	QAction *m_zoomOutAction;
 	QAction *m_zoomActualAction;
+
+	QAction *m_walkingBorderAction;
 
 	static const int MruCount = 8;
 	QAction *m_nullMruAction;

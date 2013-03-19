@@ -70,6 +70,7 @@ public:
 
 	QImage mouseMapImage;
 	QPixmap highlightPixmap, highlightTransPixmap;
+	QPixmap walkingBorderPixmap;
 
 	bool isHovering;
 	CMapPoint hovered;
@@ -80,6 +81,8 @@ protected:
 	bool m_isDraggingMap;
 	QPoint m_dragStart;
 	float m_roughDragDistance;
+
+	bool m_showWalkingBorders;
 
 protected:
 	void mouseMoveEvent(QMouseEvent *);
@@ -94,7 +97,9 @@ signals:
 			QMouseEvent *event);
 
 public slots:
-	
+	void setWalkingBordersShown(bool value);
+public:
+	bool walkingBordersShown() const { return m_showWalkingBorders; }
 };
 
 #endif // CMAPWIDGET_H

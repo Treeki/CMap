@@ -71,6 +71,11 @@ CEditorWindow::CEditorWindow(QWidget *parent) :
 		restoreState(settings.value("editorWindowState").toByteArray());
 	}
 
+	// .. and other settings
+	bool walkBorder = settings.value("showWalkingBorders", true).toBool();
+	m_mapWidget->setWalkingBordersShown(walkBorder);
+	m_walkingBorderAction->setChecked(walkBorder);
+
 	// And there we go!
 	loadMap();
 	//loadMap("/home/me/Furcadia/Dreams/CH_G3/G3.map");
@@ -114,6 +119,12 @@ void CEditorWindow::setupActions() {
 	connect(m_zoomActualAction, SIGNAL(triggered()), SLOT(zoomActual()));
 	connect(m_zoomOutAction, SIGNAL(triggered()), SLOT(zoomOut()));
 
+	// View options
+	m_walkingBorderAction = new QAction("Unwalkable Borders", this);
+	m_walkingBorderAction->setCheckable(true);
+
+	connect(m_walkingBorderAction, SIGNAL(toggled(bool)), SLOT(handleWalkingBordersChanged(bool)));
+
 	// Dream stuff
 	m_dreamSettingsAction = new QAction("Dream Settings...", this);
 	m_reloadPatchAction = new QAction(QIcon(":/icons/reload.png"), "Reload Patches", this);
@@ -151,6 +162,8 @@ void CEditorWindow::setupMenubar() {
 	m->addAction(m_resizeDreamAction);
 
 	m = menuBar()->addMenu("&View");
+	m->addAction(m_walkingBorderAction);
+	m->addSeparator();
 	m->addAction(m_zoomInAction);
 	m->addAction(m_zoomOutAction);
 	m->addAction(m_zoomActualAction);
@@ -528,6 +541,13 @@ void CEditorWindow::reloadPatches() {
 	loadPatches(false);
 	statusBar()->showMessage(QStringLiteral("Reloaded patches (%1 ms)")
 							 .arg(timer.elapsed()), 2000);
+}
+
+
+void CEditorWindow::handleWalkingBordersChanged(bool value) {
+	QSettings settings;
+	settings.setValue("showWalkingBorders", value);
+	m_mapWidget->setWalkingBordersShown(value);
 }
 
 
