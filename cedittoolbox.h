@@ -9,6 +9,7 @@
 
 #include "cbrushtool.h"
 #include "clinetool.h"
+#include "cfilltool.h"
 
 class CMapWidget;
 
@@ -27,6 +28,7 @@ private:
 	QToolBar *m_toolbar;
 	QActionGroup *m_toolActions;
 	QAction *m_brushToolAction, *m_lineToolAction;
+	QAction *m_fillToolAction;
 
 	CObjectPicker *m_objectPicker;
 
@@ -34,6 +36,7 @@ private:
 
 	CBrushTool *m_brushTool;
 	CLineTool *m_lineTool;
+	CFillTool *m_fillTool;
 
 	void setupKeyActions();
 

@@ -13,11 +13,15 @@ CEditToolbox::CEditToolbox(QWidget *parent) :
 	m_toolbar = new QToolBar(this);
 	m_toolbar->setIconSize(QSize(16, 16));
 	m_toolActions = new QActionGroup(this);
+
 	m_brushToolAction = m_toolbar->addAction(QIcon(":/icons/brush.png"), "Brush");
 	m_lineToolAction = m_toolbar->addAction(QIcon(":/icons/line.png"), "Line");
+	m_fillToolAction = m_toolbar->addAction(QIcon(":/icons/floodfill.png"), "Fill");
 
 	m_toolActions->addAction(m_brushToolAction);
 	m_toolActions->addAction(m_lineToolAction);
+	m_toolActions->addAction(m_fillToolAction);
+
 	foreach (QAction *act, m_toolActions->actions())
 		act->setCheckable(true);
 	m_brushToolAction->setChecked(true);
@@ -65,6 +69,8 @@ void CEditToolbox::toolActionActivated(QAction *action) {
 		m_mapWidget->setTool(m_brushTool);
 	else if (action == m_lineToolAction)
 		m_mapWidget->setTool(m_lineTool);
+	else if (action == m_fillToolAction)
+		m_mapWidget->setTool(m_fillTool);
 }
 
 
@@ -85,13 +91,19 @@ void CEditToolbox::setup(CMapWidget *mw) {
 	m_lineTool->setMapWidget(mw);
 	m_lineTool->setWhat(m_objectPicker->objectType(), m_objectPicker->selectedShape());
 
+	m_fillTool = new CFillTool(this);
+	m_fillTool->setMapWidget(mw);
+	m_fillTool->setWhat(m_objectPicker->objectType(), m_objectPicker->selectedShape());
+
 	mw->setTool(m_brushTool);
 
 	connect(m_objectPicker, SIGNAL(selectionChanged(CMap::ObjectType,int)), m_brushTool, SLOT(setWhat(CMap::ObjectType,int)));
 	connect(m_objectPicker, SIGNAL(selectionChanged(CMap::ObjectType,int)), m_lineTool, SLOT(setWhat(CMap::ObjectType,int)));
+	connect(m_objectPicker, SIGNAL(selectionChanged(CMap::ObjectType,int)), m_fillTool, SLOT(setWhat(CMap::ObjectType,int)));
 
 	connect(m_brushTool, SIGNAL(shapePicked(int)), m_objectPicker, SLOT(setSelectedShape(int)));
 	connect(m_lineTool, SIGNAL(shapePicked(int)), m_objectPicker, SLOT(setSelectedShape(int)));
+	connect(m_fillTool, SIGNAL(shapePicked(int)), m_objectPicker, SLOT(setSelectedShape(int)));
 }
 
 
@@ -105,4 +117,5 @@ void CEditToolbox::cleanup() {
 		m_mapWidget->setTool(0);
 	delete m_brushTool;
 	delete m_lineTool;
+	delete m_fillTool;
 }

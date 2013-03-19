@@ -89,12 +89,15 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 ## Other Editing Features:
 
-- Tools: Selection, flood fill, rectangle/diamond, ...
+- Tools: Selection, rectangle/diamond, ...
 - Copy/paste
 - "Clips" feature, similar to Dreamer Reloaded
 
 ## Minor (Short term) Things:
 
+- Refactor the tool classes so that the logic for a tool that holds a specific
+  object and can place/pick it is all in one place, and not duplicated
+  between Brush, Line and Fill
 - Unobtrusive way to show errors: failed patch loads (non-existent dir etc),
   invalid object IDs that could cause issues when the dream is uploaded, ...
 
