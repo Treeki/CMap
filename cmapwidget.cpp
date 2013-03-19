@@ -486,6 +486,14 @@ void CMapWidget::mousePressEvent(QMouseEvent *event) {
 	event->accept();
 
 	CMapPoint clicked = calculateClickedPosition(event->pos());
+
+	if (event->button() == Qt::LeftButton && event->modifiers() & Qt::ControlModifier) {
+		if (m_map->positionValid(clicked))
+			emit copyPositionToClipboard(clicked);
+		return;
+	}
+
+
 	if (m_map->positionValid(clicked))
 		m_currentTool->tileMousePress(clicked, event);
 

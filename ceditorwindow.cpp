@@ -18,6 +18,8 @@
 #include <QSettings>
 #include <QStatusBar>
 #include <QElapsedTimer>
+#include <QClipboard>
+#include <QApplication>
 
 CEditorWindow::CEditorWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -27,6 +29,7 @@ CEditorWindow::CEditorWindow(QWidget *parent) :
 	m_mapWidget = new CMapWidget(this);
 
 	m_mapWidget->setScrollArea(m_mapScrollArea);
+	connect(m_mapWidget, SIGNAL(copyPositionToClipboard(CMapPoint)), SLOT(handleCopyPositionToClipboard(CMapPoint)));
 
 	m_mapScrollArea->setWidget(m_mapWidget);
 	setCentralWidget(m_mapScrollArea);
@@ -548,6 +551,19 @@ void CEditorWindow::handleWalkingBordersChanged(bool value) {
 	QSettings settings;
 	settings.setValue("showWalkingBorders", value);
 	m_mapWidget->setWalkingBordersShown(value);
+}
+
+
+void CEditorWindow::handleCopyPositionToClipboard(const CMapPoint &pos) {
+	auto manipPos = pos;
+	if (m_toolbox->objectPicker()->objectType() != CMap::Wall)
+		manipPos.clearRightWall();
+
+	auto value = QStringLiteral("%1,%2").arg(manipPos.x).arg(manipPos.y);
+	QApplication::clipboard()->setText(value);
+
+	auto message = QStringLiteral("Copied '%1' to the clipboard").arg(value);
+	statusBar()->showMessage(message, 1500);
 }
 
 

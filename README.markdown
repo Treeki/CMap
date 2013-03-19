@@ -48,7 +48,7 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 # Implemented so far:
 
-- Loading/saving of maps; patch loading (but not configurable settings)
+- Loading/saving of maps; patch loading
 - Rudimentary object picker
 - Basic brush tool
 - Basic line tool
@@ -96,7 +96,6 @@ it up and make it work with whatever gets added to Furcadia later on.
 ## Minor (Short term) Things:
 
 - Better About dialog
-- Ctrl+Click to copy hovered position
 - Unobtrusive way to show errors: failed patch loads (non-existent dir etc),
   invalid object IDs that could cause issues when the dream is uploaded, ...
 

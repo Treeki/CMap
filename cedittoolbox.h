@@ -42,6 +42,9 @@ private:
 
 private slots:
 	void toolActionActivated(QAction *action);
+
+public:
+	CObjectPicker *objectPicker() const { return m_objectPicker; }
 };
 
 #endif // CEDITTOOLBOX_H

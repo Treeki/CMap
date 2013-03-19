@@ -96,6 +96,8 @@ signals:
 			bool toValid, const CMapPoint &to,
 			QMouseEvent *event);
 
+	void copyPositionToClipboard(const CMapPoint &pos);
+
 public slots:
 	void setWalkingBordersShown(bool value);
 public:

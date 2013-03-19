@@ -13,6 +13,7 @@ class QAction;
 class CEditableMap;
 class CPatchContext;
 class CDreamSettings;
+struct CMapPoint;
 
 class CEditorWindow : public QMainWindow {
 	Q_OBJECT
@@ -58,6 +59,8 @@ private slots:
 	void openMRUFile();
 	void handleCleanChanged(bool clean);
 	void handleWalkingBordersChanged(bool value);
+
+	void handleCopyPositionToClipboard(const CMapPoint &pos);
 
 protected slots:
 	void updateTitleBar();
