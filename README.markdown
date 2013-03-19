@@ -75,6 +75,7 @@ it up and make it work with whatever gets added to Furcadia later on.
 - FS2 support
 - double-checking of patch boundaries etc
 - KitterSpeak support
+- take floors' furre positions into account when drawing items (and effects?)
 
 ## Map Widget:
 
@@ -87,10 +88,6 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 - Larger brushes; checkerboard brush with two parity options
 
-## Line Tool:
-
-- Support walls properly
-
 ## Other Editing Features:
 
 - Tools: Selection, flood fill, rectangle/diamond, ...
@@ -99,6 +96,7 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 ## Minor (Short term) Things:
 
+- Make the line tool support walls
 - Better About dialog
 - Make Open/Save dialogs remember their last directory
 - Ctrl+Click to copy hovered position

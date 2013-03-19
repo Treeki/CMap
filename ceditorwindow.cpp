@@ -3,6 +3,7 @@
 #include "cedittoolbox.h"
 #include "cmapwidget.h"
 #include "cdreamsettings.h"
+#include "cresizedreamdialog.h"
 #include "ceditorstatusbar.h"
 #include <QUndoView>
 #include <QDockWidget>
@@ -114,11 +115,13 @@ void CEditorWindow::setupActions() {
 	connect(m_zoomOutAction, SIGNAL(triggered()), SLOT(zoomOut()));
 
 	// Dream stuff
-	m_dreamSettingsAction = new QAction("Dream Settings", this);
+	m_dreamSettingsAction = new QAction("Dream Settings...", this);
 	m_reloadPatchAction = new QAction(QIcon(":/icons/reload.png"), "Reload Patches", this);
+	m_resizeDreamAction = new QAction("Resize Dream...", this);
 
 	connect(m_dreamSettingsAction, SIGNAL(triggered()), SLOT(showDreamSettings()));
 	connect(m_reloadPatchAction, SIGNAL(triggered()), SLOT(reloadPatches()));
+	connect(m_resizeDreamAction, SIGNAL(triggered()), SLOT(showResizeDream()));
 }
 
 void CEditorWindow::setupMenubar() {
@@ -144,6 +147,8 @@ void CEditorWindow::setupMenubar() {
 	m->addSeparator();
 	m->addAction(m_dreamSettingsAction);
 	m->addAction(m_reloadPatchAction);
+	m->addSeparator();
+	m->addAction(m_resizeDreamAction);
 
 	m = menuBar()->addMenu("&View");
 	m->addAction(m_zoomInAction);
@@ -478,6 +483,19 @@ void CEditorWindow::showDreamSettings() {
 			reloadPatches();
 	}
 	ds->deleteLater();
+}
+
+
+void CEditorWindow::showResizeDream() {
+	CResizeDreamDialog *rd = new CResizeDreamDialog(m_map, this);
+	if (rd->exec() == QDialog::Accepted) {
+		if (rd->applyChanges()) {
+			m_map->undo.makeUnfixablyDirty();
+			m_map->undo.baseStack()->clear();
+			m_mapWidget->fixWidgetSize();
+		}
+	}
+	rd->deleteLater();
 }
 
 

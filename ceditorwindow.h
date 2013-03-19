@@ -38,6 +38,7 @@ public slots:
 
 	void showAboutBox();
 	void showDreamSettings();
+	void showResizeDream();
 
 	void reloadPatches();
 
@@ -80,6 +81,7 @@ protected:
 
 	QAction *m_dreamSettingsAction;
 	QAction *m_reloadPatchAction;
+	QAction *m_resizeDreamAction;
 
 	QAction *m_zoomInAction;
 	QAction *m_zoomOutAction;
