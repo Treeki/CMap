@@ -126,13 +126,26 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 				paintShape(painter, rect, x, y, m_patches->walls, m_patches->wallIndexer.imageNumForShape(rightWall), 16, -8);
 
 
+			int floorNum = m_map->floors[x][y];
+			if (toPreview & CMap::Floor)
+				floorNum = m_currentTool->whatThingFor(CMap::Floor, x, y, floorNum);
+			floorNum = m_map->randomisedFloor(x, y, floorNum);
+
+			int offsetX = 0, offsetY = 0;
+			if (m_patches->floors.exists(floorNum)) {
+				const CShape &shape = m_patches->floors[floorNum];
+				const CFrame &frame = shape.frames.first();
+				offsetX = frame.furrePosX;
+				offsetY = frame.furrePosY;
+			}
+
 			int itemNum = m_map->items[x][y];
 			if (toPreview & CMap::Item)
 				itemNum = m_currentTool->whatThingFor(CMap::Item, x, y, itemNum);
 			itemNum = m_map->randomisedItem(x, y, itemNum);
 
 			if (itemNum > 0)
-				paintShape(painter, rect, x, y, m_patches->items, itemNum);
+				paintShape(painter, rect, x, y, m_patches->items, itemNum, offsetX, offsetY);
 
 
 			int effectNum = m_map->effects[x][y];
@@ -183,19 +196,37 @@ void CMapWidget::updateTile(int x, int y, CEditableMap::UpdateType type) {
 		updateWorld(screenX + 2, screenY + 63, 62, 32);
 	}
 
-	if (type & CEditableMap::FloorUpdate) {
-		int num = m_map->floors[x][y];
-		if (toPreview & CMap::Floor)
-			num = m_currentTool->whatThingFor(CMap::Floor, x, y, num);
-		num = m_map->randomisedFloor(x, y, num);
+	// Get the floor in one place
+	int floorNum = -1;
+	int offsetX = 0, offsetY = 0;
 
-		if (m_patches->floors.exists(num)) {
-			const CShape &shape = m_patches->floors[num];
+	if (type & (CEditableMap::FloorUpdate | CEditableMap::ItemUpdate)) {
+		floorNum = m_map->floors[x][y];
+		if (toPreview & CMap::Floor)
+			floorNum = m_currentTool->whatThingFor(CMap::Floor, x, y, floorNum);
+		floorNum = m_map->randomisedFloor(x, y, floorNum);
+
+		if (m_patches->floors.exists(floorNum)) {
+			const CShape &shape = m_patches->floors[floorNum];
+			const CFrame &frame = shape.frames.first();
+			offsetX = frame.furrePosX;
+			offsetY = frame.furrePosY;
+		}
+	}
+
+	if (type & CEditableMap::FloorUpdate) {
+		if (m_patches->floors.exists(floorNum)) {
+			const CShape &shape = m_patches->floors[floorNum];
 			const CFrame &frame = shape.frames.first();
 
 			updateWorld(screenX + frame.posX, screenY + frame.posY,
 				   frame.pixmap.width(), frame.pixmap.height());
 		}
+
+		// As it turns out, if we refresh the floor, it's a good idea to
+		// also refresh the item... because its position could have changed
+		// if the floor had a furrepos set.
+		type = (CEditableMap::UpdateType)(type | CEditableMap::ItemUpdate);
 	}
 
 	if (type & CEditableMap::ItemUpdate) {
@@ -208,7 +239,8 @@ void CMapWidget::updateTile(int x, int y, CEditableMap::UpdateType type) {
 			const CShape &shape = m_patches->items[num];
 			const CFrame &frame = shape.frames.first();
 
-			updateWorld(screenX + frame.posX, screenY + frame.posY,
+			updateWorld(screenX + frame.posX + offsetX,
+						screenY + frame.posY + offsetY,
 				   frame.pixmap.width(), frame.pixmap.height());
 		}
 	}

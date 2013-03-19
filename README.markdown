@@ -55,7 +55,8 @@ it up and make it work with whatever gets added to Furcadia later on.
 - Map widget that displays and edits a map, with scrolling and zooming in/out
 - Undo/Redo with multiple levels
 - Loading of FOX and FSH/FBJ files
-- Dream Settings dialog (still needs to allow patch reloading)
+- Dream Settings dialog
+- Resize dialog
 
 
 # Planned/To do:
@@ -75,7 +76,6 @@ it up and make it work with whatever gets added to Furcadia later on.
 - FS2 support
 - double-checking of patch boundaries etc
 - KitterSpeak support
-- take floors' furre positions into account when drawing items (and effects?)
 
 ## Map Widget:
 
