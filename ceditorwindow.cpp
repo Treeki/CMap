@@ -423,13 +423,18 @@ void CEditorWindow::save(bool forceNewFilename) {
 		if (settings.contains("saveDialogState"))
 			dlg->restoreState(settings.value("saveDialogState").toByteArray());
 
+		bool result = false;
 		if (dlg->exec() == QFileDialog::Accepted) {
 			setMapPath(dlg->selectedFiles().first());
+			result = true;
 		}
 
 		settings.setValue("saveDialogState", dlg->saveState());
 
 		dlg->deleteLater();
+
+		if (!result)
+			return;
 	}
 
 	m_map->revision++;
