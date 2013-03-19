@@ -95,7 +95,6 @@ it up and make it work with whatever gets added to Furcadia later on.
 
 ## Minor (Short term) Things:
 
-- Better About dialog
 - Unobtrusive way to show errors: failed patch loads (non-existent dir etc),
   invalid object IDs that could cause issues when the dream is uploaded, ...
 

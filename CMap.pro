@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     cdreamsettings.cpp \
     ceditorstatusbar.cpp \
     cresizedreamdialog.cpp \
-    cevenspinbox.cpp
+    cevenspinbox.cpp \
+    caboutdialog.cpp
 
 HEADERS  += \
     cpatchfile.h \
@@ -63,11 +64,13 @@ HEADERS  += \
     cdreamsettings.h \
     ceditorstatusbar.h \
     cresizedreamdialog.h \
-    cevenspinbox.h
+    cevenspinbox.h \
+    caboutdialog.h
 
 FORMS    += \
     cdreamsettings.ui \
-    cresizedreamdialog.ui
+    cresizedreamdialog.ui \
+    caboutdialog.ui
 
 RESOURCES += \
     resources.qrc

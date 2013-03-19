@@ -5,6 +5,7 @@
 #include "cdreamsettings.h"
 #include "cresizedreamdialog.h"
 #include "ceditorstatusbar.h"
+#include "caboutdialog.h"
 #include <QUndoView>
 #include <QDockWidget>
 #include <QScrollArea>
@@ -501,13 +502,8 @@ void CEditorWindow::updateZoomActions() {
 
 
 void CEditorWindow::showAboutBox() {
-	QMessageBox::about(this,
-					   "About CMap",
-
-					   "An alternative Furcadia map editor developed by Treeki.\n"
-					   "\n"
-					   "Source code and more information available here:\n"
-					   "http://github.com/Treeki/CMap");
+	auto dlg = new CAboutDialog(this);
+	dlg->exec();
 }
 
 
