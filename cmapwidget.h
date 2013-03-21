@@ -84,6 +84,9 @@ protected:
 
 	bool m_showWalkingBorders;
 
+	bool m_showItems, m_showFloors, m_showWalls;
+	bool m_showRegions, m_showEffects;
+
 protected:
 	void mouseMoveEvent(QMouseEvent *);
 	void mousePressEvent(QMouseEvent *);
@@ -100,8 +103,20 @@ signals:
 
 public slots:
 	void setWalkingBordersShown(bool value);
+
+	void setItemsShown(bool value);
+	void setFloorsShown(bool value);
+	void setWallsShown(bool value);
+	void setRegionsShown(bool value);
+	void setEffectsShown(bool value);
 public:
 	bool walkingBordersShown() const { return m_showWalkingBorders; }
+
+	bool itemsShown() const { return m_showItems; }
+	bool floorsShown() const { return m_showFloors; }
+	bool wallsShown() const { return m_showWalls; }
+	bool regionsShown() const { return m_showRegions; }
+	bool effectsShown() const { return m_showEffects; }
 };
 
 #endif // CMAPWIDGET_H

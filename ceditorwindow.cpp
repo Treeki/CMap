@@ -81,6 +81,13 @@ CEditorWindow::CEditorWindow(QWidget *parent) :
 	m_mapWidget->setWalkingBordersShown(walkBorder);
 	m_walkingBorderAction->setChecked(walkBorder);
 
+	// Not saving these atm.. should I?
+	m_showItemsAction->setChecked(true);
+	m_showFloorsAction->setChecked(true);
+	m_showWallsAction->setChecked(true);
+	m_showRegionsAction->setChecked(true);
+	m_showEffectsAction->setChecked(true);
+
 	// And there we go!
 	loadMap();
 	//loadMap("/home/me/Furcadia/Dreams/CH_G3/G3.map");
@@ -141,6 +148,30 @@ void CEditorWindow::setupActions() {
 
 	connect(m_walkingBorderAction, SIGNAL(toggled(bool)), SLOT(handleWalkingBordersChanged(bool)));
 
+	m_showItemsAction = new QAction("&Objects", this);
+	m_showFloorsAction = new QAction("&Floors", this);
+	m_showWallsAction = new QAction("&Walls", this);
+	m_showRegionsAction = new QAction("&Regions", this);
+	m_showEffectsAction = new QAction("&Effects", this);
+
+	m_showItemsAction->setCheckable(true);
+	m_showFloorsAction->setCheckable(true);
+	m_showWallsAction->setCheckable(true);
+	m_showRegionsAction->setCheckable(true);
+	m_showEffectsAction->setCheckable(true);
+
+	m_showItemsAction->setShortcut(QKeySequence("Ctrl+1"));
+	m_showFloorsAction->setShortcut(QKeySequence("Ctrl+2"));
+	m_showWallsAction->setShortcut(QKeySequence("Ctrl+3"));
+	m_showRegionsAction->setShortcut(QKeySequence("Ctrl+4"));
+	m_showEffectsAction->setShortcut(QKeySequence("Ctrl+5"));
+
+	connect(m_showItemsAction, SIGNAL(toggled(bool)), m_mapWidget, SLOT(setItemsShown(bool)));
+	connect(m_showFloorsAction, SIGNAL(toggled(bool)), m_mapWidget, SLOT(setFloorsShown(bool)));
+	connect(m_showWallsAction, SIGNAL(toggled(bool)), m_mapWidget, SLOT(setWallsShown(bool)));
+	connect(m_showRegionsAction, SIGNAL(toggled(bool)), m_mapWidget, SLOT(setRegionsShown(bool)));
+	connect(m_showEffectsAction, SIGNAL(toggled(bool)), m_mapWidget, SLOT(setEffectsShown(bool)));
+
 	// Dream stuff
 	m_dreamSettingsAction = new QAction("Dream Settings...", this);
 	m_reloadPatchAction = new QAction(QIcon(":/icons/reload.png"), "Reload Patches", this);
@@ -180,6 +211,12 @@ void CEditorWindow::setupMenubar() {
 	m->addAction(m_resizeDreamAction);
 
 	m = menuBar()->addMenu("&View");
+	m->addAction(m_showItemsAction);
+	m->addAction(m_showFloorsAction);
+	m->addAction(m_showWallsAction);
+	m->addAction(m_showRegionsAction);
+	m->addAction(m_showEffectsAction);
+	m->addSeparator();
 	m->addAction(m_walkingBorderAction);
 	m->addSeparator();
 	m->addAction(m_zoomInAction);

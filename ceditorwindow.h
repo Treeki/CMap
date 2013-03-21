@@ -58,6 +58,7 @@ private:
 private slots:
 	void openMRUFile();
 	void handleCleanChanged(bool clean);
+
 	void handleWalkingBordersChanged(bool value);
 
 	void handleCopyPositionToClipboard(const CMapPoint &pos);
@@ -92,6 +93,9 @@ protected:
 	QAction *m_zoomActualAction;
 
 	QAction *m_walkingBorderAction;
+
+	QAction *m_showItemsAction, *m_showFloorsAction, *m_showWallsAction;
+	QAction *m_showRegionsAction, *m_showEffectsAction;
 
 	static const int MruCount = 8;
 	QAction *m_nullMruAction;

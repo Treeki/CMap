@@ -7,7 +7,10 @@ CMapWidget::CMapWidget(QWidget *parent) :
 	QWidget(parent), m_map(0), m_scrollArea(0),
 	m_zoomFactorX(1.0f), m_zoomFactorY(1.0f),
 	m_currentTool(0),
-	isHovering(false), m_isDraggingMap(false) {
+	isHovering(false), m_isDraggingMap(false),
+	m_showWalkingBorders(false),
+	m_showItems(true), m_showFloors(true), m_showWalls(true),
+	m_showRegions(true), m_showEffects(true) {
 
 	//setAttribute(Qt::WA_OpaquePaintEvent);
 	setMouseTracking(true);
@@ -64,7 +67,7 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 			   int(rawRect.y() / m_zoomFactorY),
 			   int(rawRect.width() / m_zoomFactorX),
 			   int(rawRect.height() / m_zoomFactorY)
-				);
+			   );
 
 	//painter.fillRect(rect, Qt::white);
 
@@ -78,26 +81,30 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 	CMap::ObjectType toPreview = m_currentTool->typesToPreview();
 
 	// Floors layer
-	for (int y = minY; y < maxY; y++) {
-		for (int x = minX; x < maxX; x++) {
-			int floorNum = m_map->floors[x][y];
-			if (toPreview & CMap::Floor)
-				floorNum = m_currentTool->whatThingFor(CMap::Floor, x, y, floorNum);
-			floorNum = m_map->randomisedFloor(x, y, floorNum);
+	if (m_showFloors) {
+		for (int y = minY; y < maxY; y++) {
+			for (int x = minX; x < maxX; x++) {
+				int floorNum = m_map->floors[x][y];
+				if (toPreview & CMap::Floor)
+					floorNum = m_currentTool->whatThingFor(CMap::Floor, x, y, floorNum);
+				floorNum = m_map->randomisedFloor(x, y, floorNum);
 
-			paintShape(painter, rect, x, y, m_patches->floors, floorNum);
+				paintShape(painter, rect, x, y, m_patches->floors, floorNum);
+			}
 		}
 	}
 
 	// Regions layer
-	for (int y = minY; y < maxY; y++) {
-		for (int x = minX; x < maxX; x++) {
-			int regionNum = m_map->regions[x][y];
-			if (toPreview & CMap::Region)
-				regionNum = m_currentTool->whatThingFor(CMap::Region, x, y, regionNum);
+	if (m_showRegions) {
+		for (int y = minY; y < maxY; y++) {
+			for (int x = minX; x < maxX; x++) {
+				int regionNum = m_map->regions[x][y];
+				if (toPreview & CMap::Region)
+					regionNum = m_currentTool->whatThingFor(CMap::Region, x, y, regionNum);
 
-			if (regionNum > 0)
-				paintShape(painter, rect, x, y, m_patches->regions, m_patches->regionIndexer.imageNumForShape(regionNum));
+				if (regionNum > 0)
+					paintShape(painter, rect, x, y, m_patches->regions, m_patches->regionIndexer.imageNumForShape(regionNum));
+			}
 		}
 	}
 
@@ -130,50 +137,55 @@ void CMapWidget::paintEvent(QPaintEvent *event) {
 	// Everything else
 	for (int y = minY; y < maxY; y++) {
 		for (int x = minX; x < maxX; x++) {
-			int leftWall = m_map->walls[x*2][y];
-			if (toPreview & CMap::LeftWall)
-				leftWall = m_currentTool->whatThingFor(CMap::LeftWall, x*2, y, leftWall);
+			if (m_showWalls) {
+				int leftWall = m_map->walls[x*2][y];
+				if (toPreview & CMap::LeftWall)
+					leftWall = m_currentTool->whatThingFor(CMap::LeftWall, x*2, y, leftWall);
 
-			if (leftWall > 0)
-				paintShape(painter, rect, x, y, m_patches->walls, m_patches->wallIndexer.imageNumForShape(leftWall) + 1, -16, -8);
-
-
-			int rightWall = m_map->walls[x*2+1][y];
-			if (toPreview & CMap::RightWall)
-				rightWall = m_currentTool->whatThingFor(CMap::RightWall, x*2+1, y, rightWall);
-
-			if (rightWall > 0)
-				paintShape(painter, rect, x, y, m_patches->walls, m_patches->wallIndexer.imageNumForShape(rightWall), 16, -8);
+				if (leftWall > 0)
+					paintShape(painter, rect, x, y, m_patches->walls, m_patches->wallIndexer.imageNumForShape(leftWall) + 1, -16, -8);
 
 
-			int floorNum = m_map->floors[x][y];
-			if (toPreview & CMap::Floor)
-				floorNum = m_currentTool->whatThingFor(CMap::Floor, x, y, floorNum);
-			floorNum = m_map->randomisedFloor(x, y, floorNum);
+				int rightWall = m_map->walls[x*2+1][y];
+				if (toPreview & CMap::RightWall)
+					rightWall = m_currentTool->whatThingFor(CMap::RightWall, x*2+1, y, rightWall);
 
-			int offsetX = 0, offsetY = 0;
-			if (m_patches->floors.exists(floorNum)) {
-				const CShape &shape = m_patches->floors[floorNum];
-				const CFrame &frame = shape.frames.first();
-				offsetX = frame.furrePosX;
-				offsetY = frame.furrePosY;
+				if (rightWall > 0)
+					paintShape(painter, rect, x, y, m_patches->walls, m_patches->wallIndexer.imageNumForShape(rightWall), 16, -8);
 			}
 
-			int itemNum = m_map->items[x][y];
-			if (toPreview & CMap::Item)
-				itemNum = m_currentTool->whatThingFor(CMap::Item, x, y, itemNum);
-			itemNum = m_map->randomisedItem(x, y, itemNum);
+			if (m_showItems) {
+				int floorNum = m_map->floors[x][y];
+				if (toPreview & CMap::Floor)
+					floorNum = m_currentTool->whatThingFor(CMap::Floor, x, y, floorNum);
+				floorNum = m_map->randomisedFloor(x, y, floorNum);
 
-			if (itemNum > 0)
-				paintShape(painter, rect, x, y, m_patches->items, itemNum, offsetX, offsetY);
+				int offsetX = 0, offsetY = 0;
+				if (m_patches->floors.exists(floorNum)) {
+					const CShape &shape = m_patches->floors[floorNum];
+					const CFrame &frame = shape.frames.first();
+					offsetX = frame.furrePosX;
+					offsetY = frame.furrePosY;
+				}
+
+				int itemNum = m_map->items[x][y];
+				if (toPreview & CMap::Item)
+					itemNum = m_currentTool->whatThingFor(CMap::Item, x, y, itemNum);
+				itemNum = m_map->randomisedItem(x, y, itemNum);
+
+				if (itemNum > 0)
+					paintShape(painter, rect, x, y, m_patches->items, itemNum, offsetX, offsetY);
+			}
 
 
-			int effectNum = m_map->effects[x][y];
-			if (toPreview & CMap::Effect)
-				effectNum = m_currentTool->whatThingFor(CMap::Effect, x, y, effectNum);
+			if (m_showEffects) {
+				int effectNum = m_map->effects[x][y];
+				if (toPreview & CMap::Effect)
+					effectNum = m_currentTool->whatThingFor(CMap::Effect, x, y, effectNum);
 
-			if (effectNum > 0)
-				paintShape(painter, rect, x, y, m_patches->effects, effectNum);
+				if (effectNum > 0)
+					paintShape(painter, rect, x, y, m_patches->effects, effectNum);
+			}
 		}
 	}
 
@@ -544,9 +556,45 @@ void CMapWidget::leaveEvent(QEvent *) {
 
 
 
+// A bunch of boring setters
 void CMapWidget::setWalkingBordersShown(bool value) {
-	if (value == m_showWalkingBorders)
-		return;
-	m_showWalkingBorders = value;
-	update();
+	if (value != m_showWalkingBorders) {
+		m_showWalkingBorders = value;
+		update();
+	}
+}
+
+void CMapWidget::setItemsShown(bool value) {
+	if (value != m_showItems) {
+		m_showItems = value;
+		update();
+	}
+}
+
+void CMapWidget::setFloorsShown(bool value) {
+	if (value != m_showFloors) {
+		m_showFloors = value;
+		update();
+	}
+}
+
+void CMapWidget::setWallsShown(bool value) {
+	if (value != m_showWalls) {
+		m_showWalls = value;
+		update();
+	}
+}
+
+void CMapWidget::setRegionsShown(bool value) {
+	if (value != m_showRegions) {
+		m_showRegions = value;
+		update();
+	}
+}
+
+void CMapWidget::setEffectsShown(bool value) {
+	if (value != m_showEffects) {
+		m_showEffects = value;
+		update();
+	}
 }
