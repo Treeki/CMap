@@ -101,6 +101,11 @@ void CEditorWindow::setupActions() {
 	connect(m_saveAction, SIGNAL(triggered()), SLOT(save()));
 	connect(m_saveAsAction, SIGNAL(triggered()), SLOT(saveAs()));
 
+	m_newAction->setShortcut(QKeySequence::New);
+	m_openAction->setShortcut(QKeySequence::Open);
+	m_saveAction->setShortcut(QKeySequence::Save);
+	m_saveAsAction->setShortcut(QKeySequence::SaveAs);
+
 	// MRU
 	m_nullMruAction = new QAction("(None)", this);
 	m_nullMruAction->setEnabled(false);
@@ -111,10 +116,13 @@ void CEditorWindow::setupActions() {
 	}
 
 	// Undo/redo
-	m_undoAction = m_undo.createUndoAction(this, "Undo");
+	m_undoAction = m_undo.createUndoAction(this, "&Undo");
 	m_undoAction->setIcon(QIcon(":/icons/undo.png"));
-	m_redoAction = m_undo.createRedoAction(this, "Redo");
+	m_redoAction = m_undo.createRedoAction(this, "&Redo");
 	m_redoAction->setIcon(QIcon(":/icons/redo.png"));
+
+	m_undoAction->setShortcut(QKeySequence::Undo);
+	m_redoAction->setShortcut(QKeySequence::Redo);
 
 	// Zooming
 	m_zoomInAction = new QAction(QIcon(":/icons/zoom-in.png"), "Zoom In", this);
@@ -124,8 +132,11 @@ void CEditorWindow::setupActions() {
 	connect(m_zoomActualAction, SIGNAL(triggered()), SLOT(zoomActual()));
 	connect(m_zoomOutAction, SIGNAL(triggered()), SLOT(zoomOut()));
 
+	m_zoomInAction->setShortcut(QKeySequence::ZoomIn);
+	m_zoomOutAction->setShortcut(QKeySequence::ZoomOut);
+
 	// View options
-	m_walkingBorderAction = new QAction("Unwalkable Borders", this);
+	m_walkingBorderAction = new QAction("Unwalkable &Borders", this);
 	m_walkingBorderAction->setCheckable(true);
 
 	connect(m_walkingBorderAction, SIGNAL(toggled(bool)), SLOT(handleWalkingBordersChanged(bool)));
@@ -138,6 +149,8 @@ void CEditorWindow::setupActions() {
 	connect(m_dreamSettingsAction, SIGNAL(triggered()), SLOT(showDreamSettings()));
 	connect(m_reloadPatchAction, SIGNAL(triggered()), SLOT(reloadPatches()));
 	connect(m_resizeDreamAction, SIGNAL(triggered()), SLOT(showResizeDream()));
+
+	m_reloadPatchAction->setShortcut(QKeySequence::Refresh);
 }
 
 void CEditorWindow::setupMenubar() {
