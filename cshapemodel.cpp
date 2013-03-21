@@ -40,7 +40,7 @@ QVariant CShapeModel::data(const QModelIndex &index, int role) const {
 	}
 
 	case Qt::SizeHintRole:
-		return QSize(64, 64);
+		return QSize(80, 80);
 	}
 
 	return QVariant();
