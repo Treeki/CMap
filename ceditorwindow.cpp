@@ -45,10 +45,9 @@ CEditorWindow::CEditorWindow(QWidget *parent) :
 	// Create toolbox
 	m_toolbox = new CEditToolbox(this);
 
-	m_toolboxDock = new QDockWidget("Tools", this);
+	m_toolboxDock = new QDockWidget("Toolbox", this);
 	m_toolboxDock->setObjectName("ToolboxDock");
 	m_toolboxDock->setWidget(m_toolbox);
-	addDockWidget(Qt::LeftDockWidgetArea, m_toolboxDock);
 
 	// Create History panel
 	m_undoView = new QUndoView(&m_undo, this);
@@ -57,7 +56,9 @@ CEditorWindow::CEditorWindow(QWidget *parent) :
 	m_undoDock = new QDockWidget("History", this);
 	m_undoDock->setObjectName("UndoDock");
 	m_undoDock->setWidget(m_undoView);
-	addDockWidget(Qt::LeftDockWidgetArea, m_undoDock);
+
+	addDockWidget(Qt::RightDockWidgetArea, m_undoDock);
+	addDockWidget(Qt::RightDockWidgetArea, m_toolboxDock);
 
 
 	setupActions();
