@@ -1,6 +1,10 @@
 #ifndef CMAP_H
 #define CMAP_H
 
+#if QT_VERSION < 0x50000
+#define QStringLiteral QString
+#endif
+
 #include <QtCore/QtDebug>
 #include <QtCore/QString>
 #include <QtCore/QDataStream>
