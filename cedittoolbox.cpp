@@ -48,7 +48,9 @@ void CEditToolbox::setupKeyActions() {
 	m_prevObjAction->setShortcut(Qt::Key_Minus);
 
 	addAction(m_nextObjAction = new QAction("Next Object", this));
-	QList<QKeySequence> nextObjKeys = {Qt::Key_Equal, Qt::Key_Plus};
+	QList<QKeySequence> nextObjKeys;
+	nextObjKeys.append(Qt::Key_Equal);
+	nextObjKeys.append(Qt::Key_Plus);
 	m_nextObjAction->setShortcuts(nextObjKeys);
 
 	addAction(m_prev8ObjAction = new QAction("Previous 8 Objects", this));

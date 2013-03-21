@@ -34,7 +34,7 @@ void CLine::snapToPoints(const CMapPoint &anchor, const CMapPoint &other) {
 	int xDiff = anchor.cartesianX() - other.cartesianX();
 	int yDiff = anchor.cartesianY() - other.cartesianY();
 
-	double angle = std::atan2(yDiff, xDiff) * (180 / 3.14159265);
+	double angle = std::atan2(double(yDiff), double(xDiff)) * (180 / 3.14159265);
 
 	// 0: North West
 	// 45: North
@@ -53,11 +53,11 @@ void CLine::snapToPoints(const CMapPoint &anchor, const CMapPoint &other) {
 	else
 		direction = (OrdinalDirection)(8 + rawDirection);
 
-	int cartLength = std::floor(std::sqrt((xDiff*xDiff) + (yDiff*yDiff)));
+	int cartLength = std::floor(std::sqrt(double((xDiff*xDiff) + (yDiff*yDiff))));
 
 	int isoXDiff = (anchor.x - other.x) / 2;
 	int isoYDiff = (anchor.y - other.y) / 2;
-	int isoLength = std::floor(std::sqrt((isoXDiff*isoXDiff) + (isoYDiff*isoYDiff)));
+	int isoLength = std::floor(std::sqrt(double((isoXDiff*isoXDiff) + (isoYDiff*isoYDiff))));
 
 	CMapPoint endPoint = anchor;
 
